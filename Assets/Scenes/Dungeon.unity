@@ -545,8 +545,9 @@ MonoBehaviour:
   _heroPrefab: {fileID: -7196880853630786775, guid: c7a28af21f74b0f418c7bb385c5a6384, type: 3}
   _playerInput: {fileID: 651670765}
   _networkHooks: {fileID: 651670766}
-  _networkObjectPool: {fileID: 0}
-  _networkPrefabs: []
+  _networkObjectPool: {fileID: 651670767}
+  _networkPrefabs:
+  - {fileID: 3902254619862178815, guid: c7a28af21f74b0f418c7bb385c5a6384, type: 3}
 --- !u!114 &651670765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1177,7 +1178,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1720530812}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
