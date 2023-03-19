@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -7196880853630786775}
   - component: {fileID: 6353321546287364615}
   - component: {fileID: 3526976708383090951}
+  - component: {fileID: -5181969719367083757}
   m_Layer: 0
   m_Name: pfDogHero
   m_TagString: Untagged
@@ -112,6 +113,18 @@ MonoBehaviour:
   _rotationSpeed: 180
   _characterController: {fileID: 4046228758240027669}
   _animator: {fileID: 5548340763468952359}
+--- !u!114 &-5181969719367083757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3902254619862178815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05fa8dadc8bc436c84a5c46e0a78e6b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5787334250022583181
 PrefabInstance:
   m_ObjectHideFlags: 0

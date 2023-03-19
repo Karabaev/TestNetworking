@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Aboba.Infrastructure;
+using Aboba.Items;
 using Aboba.Utils;
 using Unity.Netcode;
 using UnityEngine;
@@ -36,6 +37,8 @@ namespace Aboba
       builder.RegisterComponent(_playerInput);
       builder.RegisterComponent(FindObjectOfType<NetworkManager>());
       builder.RegisterComponent(_networkObjectPool);
+      builder.Register<InventoryService>(Lifetime.Singleton);
+      builder.Register<LootService>(Lifetime.Singleton);
     }
     
     private void Start()
@@ -66,13 +69,14 @@ namespace Aboba
     {
       var networkManager = Container.Resolve<NetworkManager>();
 
-      if(networkManager.IsServer)
-      {
-        var spawnPoint = Vector3.zero;
-        var hero = Instantiate(_heroPrefab, spawnPoint, Quaternion.identity);
-        Container.InjectGameObject(hero.gameObject); // todokmo создать пул геймобжектов, указать хендлер префабов
-        hero.SpawnWithOwnership(clientId, true);
-      }
+      if(!networkManager.IsServer)
+        return;
+
+      var spawnPoint = Vector3.zero;
+      var hero = Instantiate(_heroPrefab, spawnPoint, Quaternion.identity);
+      hero.SpawnWithOwnership(clientId, true);
+
+      Container.Resolve<InventoryService>().AddInventory(clientId);
     }
     
     private void OnClientDisconnected(ulong clientId)
