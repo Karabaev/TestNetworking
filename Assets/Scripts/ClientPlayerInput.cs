@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Aboba.New
 {
-  public class ClientCharacterInput : NetworkBehaviour
+  public class ClientPlayerInput : NetworkBehaviour
   {
     private ServerCharacterMovement _characterMovement;
 
