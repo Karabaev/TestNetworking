@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Aboba
+namespace Aboba.Utils
 {
 public static class MathUtils
   {

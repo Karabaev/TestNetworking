@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
-namespace Aboba
+namespace Aboba.Utils
 {
   [PublicAPI]
   public static class Utils
