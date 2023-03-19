@@ -56,7 +56,7 @@ namespace Aboba
       {
         var spawnPoint = Vector3.zero;
         var hero = Instantiate(_heroPrefab, spawnPoint, Quaternion.identity);
-        Container.InjectGameObject(hero.gameObject);
+        Container.InjectGameObject(hero.gameObject); // todokmo создать пул геймобжектов, указать хендлер префабов
         hero.SpawnWithOwnership(clientId, true);
       }
     }
