@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Aboba.Player;
+using Aboba.Infrastructure;
 using Aboba.Utils;
 using Unity.Netcode;
 using UnityEngine;
@@ -19,6 +19,10 @@ namespace Aboba
     private PlayerInput _playerInput = null!;
     [SerializeField, HideInInspector]
     private NetworkHooks _networkHooks = null!;
+    [SerializeField, HideInInspector]
+    private NetworkObjectPool _networkObjectPool = null!;
+    [SerializeField, HideInInspector]
+    private List<GameObject> _networkPrefabs = null!;
 
     protected override void Awake()
     {
@@ -31,6 +35,16 @@ namespace Aboba
     {
       builder.RegisterComponent(_playerInput);
       builder.RegisterComponent(FindObjectOfType<NetworkManager>());
+      builder.RegisterComponent(_networkObjectPool);
+    }
+    
+    private void Start()
+    {
+      var networkManager = Container.Resolve<NetworkManager>();
+      var pool = Container.Resolve<NetworkObjectPool>();
+      
+      foreach(var networkPrefab in _networkPrefabs)
+        networkManager.PrefabHandler.AddHandler(networkPrefab, new InjectablePrefabInstanceHandler(Container, pool, networkPrefab));
     }
 
     private void OnNetworkSpawned()
@@ -68,11 +82,33 @@ namespace Aboba
       foreach(var obj in networkManager.SpawnManager.GetClientOwnedObjects(clientId))
         obj.Despawn();
     }
-    
+
+    protected override void OnDestroy()
+    {
+      var networkManager = Container.Resolve<NetworkManager>();
+
+      foreach(var networkPrefab in _networkPrefabs)
+        networkManager.PrefabHandler.RemoveHandler(networkPrefab);
+      
+      base.OnDestroy();
+    }
+
     private void OnValidate()
     {
       _playerInput = this.RequireComponent<PlayerInput>();
       _networkHooks = this.RequireComponent<NetworkHooks>();
+      _networkObjectPool = this.RequireComponent<NetworkObjectPool>();
+
+      _networkPrefabs = new List<GameObject>();
+
+      var networkConfig = FindObjectOfType<NetworkManager>().NetworkConfig;
+      var prefabsInfos = ReflectionUtils.RequireCollectionValueOfPrivateField(networkConfig, "NetworkPrefabs");
+
+      foreach(var prefabInfo in prefabsInfos)
+      {
+        var prefab = ReflectionUtils.RequireValueOfPublicField<GameObject>(prefabInfo, "Prefab");
+        _networkPrefabs.Add(prefab!);
+      }
     }
   }
 }

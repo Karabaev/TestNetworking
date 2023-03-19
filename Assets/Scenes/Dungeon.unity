@@ -484,9 +484,10 @@ GameObject:
   m_Component:
   - component: {fileID: 651670763}
   - component: {fileID: 651670762}
-  - component: {fileID: 651670765}
   - component: {fileID: 651670764}
+  - component: {fileID: 651670765}
   - component: {fileID: 651670766}
+  - component: {fileID: 651670767}
   m_Layer: 0
   m_Name: App
   m_TagString: Untagged
@@ -544,6 +545,8 @@ MonoBehaviour:
   _heroPrefab: {fileID: -7196880853630786775, guid: c7a28af21f74b0f418c7bb385c5a6384, type: 3}
   _playerInput: {fileID: 651670765}
   _networkHooks: {fileID: 651670766}
+  _networkObjectPool: {fileID: 0}
+  _networkPrefabs: []
 --- !u!114 &651670765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,6 +569,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95563dbc9d6a440c911d3c3518c89904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &651670767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651670761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57a47b54242e4429acf767990e18e8f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &664401766

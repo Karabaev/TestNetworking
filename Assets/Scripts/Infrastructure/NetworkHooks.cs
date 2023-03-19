@@ -1,7 +1,7 @@
 ﻿using System;
 using Unity.Netcode;
 
-namespace Aboba
+namespace Aboba.Infrastructure
 {
   public class NetworkHooks : NetworkBehaviour
   {
