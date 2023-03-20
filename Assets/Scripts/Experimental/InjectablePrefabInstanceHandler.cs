@@ -3,7 +3,7 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace Aboba.Infrastructure
+namespace Aboba.Experimental
 {
   public class InjectablePrefabInstanceHandler : INetworkPrefabInstanceHandler
   {

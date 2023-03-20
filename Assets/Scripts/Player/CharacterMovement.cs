@@ -26,7 +26,7 @@ namespace Aboba.Player
     private readonly NetworkVariable<float> _velocity = new();
 
     private Vector2 _previousInputAxis;
-    
+
     public override void OnNetworkSpawn()
     {
       if(IsClient)

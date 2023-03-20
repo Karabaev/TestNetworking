@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Aboba.Experimental;
 using Aboba.Infrastructure;
 using Aboba.Items;
 using Aboba.Utils;
@@ -40,15 +41,6 @@ namespace Aboba
       builder.Register<InventoryService>(Lifetime.Singleton);
       builder.Register<LootService>(Lifetime.Singleton);
     }
-    
-    private void Start()
-    {
-      var networkManager = Container.Resolve<NetworkManager>();
-      var pool = Container.Resolve<NetworkObjectPool>();
-      
-      foreach(var networkPrefab in _networkPrefabs)
-        networkManager.PrefabHandler.AddHandler(networkPrefab, new InjectablePrefabInstanceHandler(Container, pool, networkPrefab));
-    }
 
     private void OnNetworkSpawned()
     {
@@ -73,6 +65,7 @@ namespace Aboba
         return;
 
       var spawnPoint = Vector3.zero;
+      
       var hero = Instantiate(_heroPrefab, spawnPoint, Quaternion.identity);
       hero.SpawnWithOwnership(clientId, true);
 
@@ -85,16 +78,6 @@ namespace Aboba
       
       foreach(var obj in networkManager.SpawnManager.GetClientOwnedObjects(clientId))
         obj.Despawn();
-    }
-
-    protected override void OnDestroy()
-    {
-      var networkManager = Container.Resolve<NetworkManager>();
-
-      foreach(var networkPrefab in _networkPrefabs)
-        networkManager.PrefabHandler.RemoveHandler(networkPrefab);
-      
-      base.OnDestroy();
     }
 
     private void OnValidate()

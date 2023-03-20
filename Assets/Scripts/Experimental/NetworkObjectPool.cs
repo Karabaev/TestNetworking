@@ -3,7 +3,7 @@ using Aboba.Utils;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Aboba.Infrastructure
+namespace Aboba.Experimental
 {
   public class NetworkObjectPool : NetworkBehaviour
   {
