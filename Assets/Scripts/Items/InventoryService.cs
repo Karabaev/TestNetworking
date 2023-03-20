@@ -9,6 +9,8 @@ namespace Aboba.Items
 
     private readonly Dictionary<ulong, Inventory> _inventories = new(2);
 
+    public Inventory GetInventory(ulong ownerId) => _inventories[ownerId];
+
     public bool AddItem(ulong ownerId, InventoryItemDescriptor itemDescriptor) => _inventories[ownerId].AddItem(itemDescriptor);
 
     public void RemoveItem(ulong ownerId, int slotIndex) => _inventories[ownerId].RemoveItem(slotIndex);

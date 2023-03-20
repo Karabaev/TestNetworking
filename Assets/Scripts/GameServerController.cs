@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Aboba.Experimental;
 using Aboba.Infrastructure;
 using Aboba.Items;
+using Aboba.Network;
 using Aboba.Utils;
 using Unity.Netcode;
 using UnityEngine;
@@ -40,6 +42,9 @@ namespace Aboba
       builder.RegisterComponent(_networkObjectPool);
       builder.Register<InventoryService>(Lifetime.Singleton);
       builder.Register<LootService>(Lifetime.Singleton);
+      builder.Register<CurrentPlayerService>(Lifetime.Singleton);
+      builder.Register<ResourceService>(Lifetime.Singleton);
+      builder.Register<FromResourceFactory>(Lifetime.Singleton);
     }
 
     private void OnNetworkSpawned()
@@ -61,6 +66,11 @@ namespace Aboba
     {
       var networkManager = Container.Resolve<NetworkManager>();
 
+      if(_networkHooks.IsOwner)
+      {
+        Container.Resolve<CurrentPlayerService>().CurrentPlayerId = clientId;
+      }
+      
       if(!networkManager.IsServer)
         return;
 
@@ -96,6 +106,8 @@ namespace Aboba
         var prefab = ReflectionUtils.RequireValueOfPublicField<GameObject>(prefabInfo, "Prefab");
         _networkPrefabs.Add(prefab!);
       }
+
+      autoInjectGameObjects = FindObjectsOfType<MonoBehaviour>().Select(c => c.gameObject).ToList();
     }
   }
 }

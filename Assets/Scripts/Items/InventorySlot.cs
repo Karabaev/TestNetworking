@@ -4,6 +4,8 @@ namespace Aboba.Items
 {
   public class InventorySlot
   {
+    public int Index { get; }
+    
     public InventoryItemDescriptor? Item { get; private set; }
     
     public int Count { get; private set; }
@@ -19,5 +21,7 @@ namespace Aboba.Items
       Item = null;
       Count = 0;
     }
+
+    public InventorySlot(int index) => Index = index;
   }
 }
