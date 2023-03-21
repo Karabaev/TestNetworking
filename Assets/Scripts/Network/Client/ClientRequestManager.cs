@@ -19,7 +19,7 @@ namespace Aboba.Network.Client
 
     public UniTask<InventoryDto> RequestUserInventoryAsync()
     {
-      if(!IsClient)
+      if(!IsClient || !IsOwner)
         throw new Exception();
 
       _taskCompletionSource = new UniTaskCompletionSource<InventoryDto>();
@@ -36,8 +36,7 @@ namespace Aboba.Network.Client
       var inventory = _serverInventoryService.GetInventory(OwnerClientId);
       var dto = new InventoryDto(inventory);
       
-
-      ResponseClientRpc(dto, new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new[] { OwnerClientId } }});
+      ResponseClientRpc(dto, NetworkUtils.CreateClientRpcParams(OwnerClientId));
     }
     
     [ClientRpc]

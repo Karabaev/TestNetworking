@@ -582,6 +582,7 @@ MonoBehaviour:
   - {fileID: 2102073734}
   _heroPrefab: {fileID: -7196880853630786775, guid: c7a28af21f74b0f418c7bb385c5a6384, type: 3}
   _itemsReference: {fileID: 11400000, guid: a050299c73cbd544a8e0b5f1779f5ae5, type: 2}
+  _clientControllerPrefab: {fileID: 7070247220564661235, guid: 165f8836252d86f4dade53bdc2b77957, type: 3}
   _playerInput: {fileID: 651670765}
   _networkHooks: {fileID: 651670766}
   _networkObjectPool: {fileID: 651670767}
@@ -2063,6 +2064,11 @@ MonoBehaviour:
     NetworkPrefabs:
     - Override: 0
       Prefab: {fileID: 3902254619862178815, guid: c7a28af21f74b0f418c7bb385c5a6384, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 8671582387446271708, guid: 165f8836252d86f4dade53bdc2b77957, type: 3}
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}

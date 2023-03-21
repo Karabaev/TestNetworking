@@ -7,7 +7,6 @@ using Aboba.Items.Common.Descriptors;
 using Aboba.Items.Server.Services;
 using Aboba.Network.Client;
 using Aboba.Utils;
-using Cysharp.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 using VContainer;
@@ -17,12 +16,14 @@ namespace Aboba
 {
   [RequireComponent(typeof(PlayerInput))]
   [RequireComponent(typeof(NetworkHooks))]
-  public class GameServerController : LifetimeScope
+  public class ServerGameController : LifetimeScope
   {
     [SerializeField]
     private NetworkObject _heroPrefab = null!;
     [SerializeField]
     private ItemsReference _itemsReference = null!;
+    [SerializeField]
+    private ClientGameController _clientControllerPrefab = null!;
     
     [SerializeField, HideInInspector]
     private PlayerInput _playerInput = null!;
@@ -33,7 +34,7 @@ namespace Aboba
     [SerializeField, HideInInspector]
     private List<GameObject> _networkPrefabs = null!;
     [SerializeField, HideInInspector]
-    private ClientRequestManager _clientRequestManager = null!; 
+    private ClientRequestManager _clientRequestManager = null!;
 
     protected override void Awake()
     {
@@ -74,27 +75,16 @@ namespace Aboba
     
     private void OnClientConnected(ulong clientId)
     {
-      var networkManager = Container.Resolve<NetworkManager>();
-
-      if(_networkHooks.IsOwner)
-      {
-        Container.Resolve<CurrentPlayerService>().CurrentPlayerId = clientId;
-      }
-
-      if(networkManager.IsServer)
-      {
-        var spawnPoint = Vector3.zero;
+      var spawnPoint = Vector3.zero;
       
-        var hero = Instantiate(_heroPrefab, spawnPoint, Quaternion.identity);
-        hero.SpawnWithOwnership(clientId, true);
+      var hero = Instantiate(_heroPrefab, spawnPoint, Quaternion.identity);
+      hero.SpawnWithOwnership(clientId, true);
 
-        Container.Resolve<ServerInventoryService>().AddInventory(clientId);
-      }
-
-      if(networkManager.IsClient)
-      {
-        Container.Resolve<ClientInventoryService>().InitializeAsync().Forget();
-      }
+      Container.Resolve<ServerInventoryService>().AddInventory(clientId);
+      
+      var controller = Instantiate(_clientControllerPrefab);
+      controller.name = $"ClientController_{clientId}";
+      controller.RequireComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
     }
     
     private void OnClientDisconnected(ulong clientId)

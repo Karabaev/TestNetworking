@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Aboba.Items.Common.Descriptors;
 using Aboba.Items.Common.Model;
-using Aboba.Network;
 using Aboba.Network.Client;
 using Cysharp.Threading.Tasks;
 
@@ -12,6 +11,8 @@ namespace Aboba.Items.Client.Services
     private readonly IRequestManager _requestManager;
     private readonly ItemsReference _itemsReference;
 
+    public bool Initialized { get; private set; }
+    
     public Inventory Inventory { get; private set; } = null!;
     
     public async UniTask InitializeAsync()
@@ -27,6 +28,8 @@ namespace Aboba.Items.Client.Services
         var descriptor = _itemsReference.Items.First(i => i.Id == slot.ItemId);
         Inventory.AddItems((InventoryItemDescriptor)descriptor, slot.Count);
       }
+
+      Initialized = true;
     }
 
     public ClientInventoryService(IRequestManager requestManager, ItemsReference itemsReference)

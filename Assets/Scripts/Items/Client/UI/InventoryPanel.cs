@@ -2,7 +2,6 @@
 using Aboba.Infrastructure;
 using Aboba.Items.Client.Services;
 using Aboba.Items.Common.Model;
-using Aboba.Network;
 using Aboba.Network.Client;
 using Aboba.Utils;
 using Cysharp.Threading.Tasks;
@@ -27,6 +26,8 @@ namespace Aboba.Items.Client.UI
     
     public async UniTask InitializeAsync()
     {
+      await UniTask.WaitWhile(() => !_clientInventoryService.Initialized);
+      
       _slotPanels = await _fromResourceFactory.CreateAsync<InventorySlotPanel>("UI/pfInventorySlotPanel", Inventory.Slots.Count);
 
       foreach(var panel in _slotPanels)
