@@ -2,7 +2,6 @@
 using System.Linq;
 using Aboba.Experimental;
 using Aboba.Infrastructure;
-using Aboba.Items.Client.Services;
 using Aboba.Items.Common.Descriptors;
 using Aboba.Items.Server.Services;
 using Aboba.Network.Client;
@@ -33,8 +32,6 @@ namespace Aboba
     private NetworkObjectPool _networkObjectPool = null!;
     [SerializeField, HideInInspector]
     private List<GameObject> _networkPrefabs = null!;
-    [SerializeField, HideInInspector]
-    private ClientRequestManager _clientRequestManager = null!;
 
     protected override void Awake()
     {
@@ -49,12 +46,9 @@ namespace Aboba
       builder.RegisterComponent(FindObjectOfType<NetworkManager>());
       builder.RegisterComponent(_networkObjectPool);
       builder.Register<ServerLootService>(Lifetime.Singleton);
-      builder.Register<CurrentPlayerService>(Lifetime.Singleton);
       builder.Register<ResourceService>(Lifetime.Singleton);
       builder.Register<FromResourceFactory>(Lifetime.Singleton);
       builder.Register<ServerInventoryService>(Lifetime.Singleton);
-      builder.Register<ClientInventoryService>(Lifetime.Singleton);
-      builder.RegisterComponent(_clientRequestManager).As<IRequestManager>();
       builder.RegisterInstance(_itemsReference);
     }
 
@@ -100,7 +94,6 @@ namespace Aboba
       _playerInput = this.RequireComponent<PlayerInput>();
       _networkHooks = this.RequireComponent<NetworkHooks>();
       _networkObjectPool = this.RequireComponent<NetworkObjectPool>();
-      _clientRequestManager = this.RequireComponent<ClientRequestManager>();
 
       _networkPrefabs = new List<GameObject>();
 

@@ -1,25 +1,59 @@
+using Aboba.Infrastructure;
 using Aboba.Items.Client.Services;
 using Aboba.Network.Client;
-using Cysharp.Threading.Tasks;
-using Unity.Netcode;
+using Aboba.UI;
+using Aboba.Utils;
+using UnityEngine;
 using VContainer;
+using VContainer.Unity;
 
 namespace Aboba
 {
-  public class ClientGameController : NetworkBehaviour
+  [RequireComponent(typeof(NetworkHooks))]
+  public class ClientGameController : LifetimeScope
   {
-    [Inject]
-    private CurrentPlayerService _currentPlayerService = null!;
-    [Inject]
-    private ClientInventoryService _clientInventoryService = null!;
-
-    public override void OnNetworkSpawn()
+    [SerializeField, HideInInspector]
+    private NetworkHooks _networkHooks = null!;
+    [SerializeField, HideInInspector]
+    private ClientRequestManager _clientRequestManager = null!;
+    
+    protected override void Awake()
     {
-      if(!IsOwner)
+      base.Awake();
+      _networkHooks.OnNetworkSpawnHook += OnNetworkSpawned;
+    }
+
+    protected override void Configure(IContainerBuilder builder)
+    {
+      base.Configure(builder);
+      builder.RegisterComponent(_clientRequestManager).As<IRequestManager>();
+      builder.Register<ClientInventoryService>(Lifetime.Singleton);
+      builder.Register<ResourceService>(Lifetime.Singleton);
+      builder.Register<FromResourceFactory>(Lifetime.Singleton);
+      builder.Register<UIService>(Lifetime.Singleton);
+      builder.Register<ScreenService>(Lifetime.Singleton);
+      builder.Register<CurrentPlayerService>(Lifetime.Singleton);
+      builder.RegisterComponent(FindObjectOfType<Canvas>());
+    }
+
+    private async void OnNetworkSpawned()
+    {
+      if(!_networkHooks.IsOwner)
         return;
       
-      _currentPlayerService.CurrentPlayerId = OwnerClientId;
-      _clientInventoryService.InitializeAsync().Forget();
+      Container.Resolve<CurrentPlayerService>().CurrentPlayerId = _networkHooks.OwnerClientId;
+      
+      await Container.Resolve<ClientInventoryService>().InitializeAsync();
+
+      var screenService = Container.Resolve<ScreenService>();
+      screenService.Initialize();
+      await screenService.OpenScreenAsync("UI/pfGameScreen");
+    }
+
+    private void OnValidate()
+    {
+      _networkHooks = this.RequireComponent<NetworkHooks>();
+      _clientRequestManager = this.RequireComponent<ClientRequestManager>();
     }
   }
 }

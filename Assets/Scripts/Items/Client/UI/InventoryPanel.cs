@@ -12,7 +12,6 @@ namespace Aboba.Items.Client.UI
 {
   public class InventoryPanel : MonoBehaviour
   {
-    
     [Inject]
     private CurrentPlayerService _currentPlayerService = null!;
     [Inject]
