@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Aboba.Items.Descriptors;
+using Aboba.Items.Common.Descriptors;
 
-namespace Aboba.Items
+namespace Aboba.Items.Common.Model
 {
   public class Inventory
   {
@@ -15,18 +15,18 @@ namespace Aboba.Items
     
     public event Action<int>? ItemRemoved;
     
-    public bool AddItem(InventoryItemDescriptor itemDescriptor)
+    public bool AddItems(InventoryItemDescriptor itemDescriptor, int count = 1)
     {
       var slot = FindSuitableSlot(itemDescriptor);
-
+      
       if(slot == null)
         return false;
-
-      slot.AddItem(itemDescriptor);
+      
+      slot.AddItems(itemDescriptor, count);
       ItemAdded?.Invoke(slot.Index);
       return true;
     }
-
+    
     public void RemoveItem(int slotIndex)
     {
       _slots[slotIndex].RemoveItem();

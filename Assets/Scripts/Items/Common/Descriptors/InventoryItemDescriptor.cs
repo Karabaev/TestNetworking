@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Aboba.Items.Descriptors
+namespace Aboba.Items.Common.Descriptors
 {
   [CreateAssetMenu(menuName = "Aboba/Descriptors/InventoryItem")]
   public class InventoryItemDescriptor : ItemDescriptor

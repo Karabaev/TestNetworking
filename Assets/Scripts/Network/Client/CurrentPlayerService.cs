@@ -1,4 +1,4 @@
-﻿namespace Aboba.Network
+﻿namespace Aboba.Network.Client
 {
   public class CurrentPlayerService
   {

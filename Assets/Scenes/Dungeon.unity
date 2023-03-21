@@ -492,6 +492,7 @@ GameObject:
   - component: {fileID: 651670765}
   - component: {fileID: 651670766}
   - component: {fileID: 651670767}
+  - component: {fileID: 651670768}
   m_Layer: 0
   m_Name: App
   m_TagString: Untagged
@@ -546,9 +547,7 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects:
-  - {fileID: 910800933}
-  - {fileID: 1618710323}
-  - {fileID: 1618710323}
+  - {fileID: 651670761}
   - {fileID: 1700807822}
   - {fileID: 1700807822}
   - {fileID: 130120861}
@@ -564,10 +563,15 @@ MonoBehaviour:
   - {fileID: 651670761}
   - {fileID: 651670761}
   - {fileID: 664401766}
+  - {fileID: 910800933}
+  - {fileID: 910800933}
+  - {fileID: 910800933}
   - {fileID: 1246446273}
   - {fileID: 1246446273}
   - {fileID: 1427214629}
   - {fileID: 1427214629}
+  - {fileID: 1618710323}
+  - {fileID: 1618710323}
   - {fileID: 1881168657}
   - {fileID: 1881168657}
   - {fileID: 1919518624}
@@ -577,11 +581,13 @@ MonoBehaviour:
   - {fileID: 2102073734}
   - {fileID: 2102073734}
   _heroPrefab: {fileID: -7196880853630786775, guid: c7a28af21f74b0f418c7bb385c5a6384, type: 3}
+  _itemsReference: {fileID: 11400000, guid: a050299c73cbd544a8e0b5f1779f5ae5, type: 2}
   _playerInput: {fileID: 651670765}
   _networkHooks: {fileID: 651670766}
   _networkObjectPool: {fileID: 651670767}
   _networkPrefabs:
   - {fileID: 3902254619862178815, guid: c7a28af21f74b0f418c7bb385c5a6384, type: 3}
+  _clientRequestManager: {fileID: 651670768}
 --- !u!114 &651670765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,6 +622,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57a47b54242e4429acf767990e18e8f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &651670768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651670761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38489aa4d374150bbf0673b9d97ac9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &664401766

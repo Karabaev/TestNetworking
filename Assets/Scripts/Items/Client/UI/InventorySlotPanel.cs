@@ -1,9 +1,10 @@
+using Aboba.Items.Common.Model;
 using Aboba.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Aboba.Items.UI
+namespace Aboba.Items.Client.UI
 {
   public class InventorySlotPanel : MonoBehaviour
   {

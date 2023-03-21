@@ -1,6 +1,6 @@
-using Aboba.Items.Descriptors;
+using Aboba.Items.Common.Descriptors;
 
-namespace Aboba.Items
+namespace Aboba.Items.Common.Model
 {
   public class InventorySlot
   {
@@ -10,10 +10,10 @@ namespace Aboba.Items
     
     public int Count { get; private set; }
 
-    public void AddItem(InventoryItemDescriptor item)
+    public void AddItems(InventoryItemDescriptor item, int count)
     {
       Item = item;
-      Count++;
+      Count += count;
     }
 
     public void RemoveItem()

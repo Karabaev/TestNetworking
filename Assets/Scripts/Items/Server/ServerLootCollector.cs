@@ -1,13 +1,15 @@
+using Aboba.Items.Client;
+using Aboba.Items.Server.Services;
 using Unity.Netcode;
 using UnityEngine;
 using VContainer;
 
-namespace Aboba.Items
+namespace Aboba.Items.Server
 {
-  public class LootCollectorServer : NetworkBehaviour
+  public class ServerLootCollector : NetworkBehaviour
   {
     [Inject]
-    private LootService _lootService = null!;
+    private ServerLootService _serverLootService = null!;
     
     private void Awake() => enabled = false;
 
@@ -18,7 +20,7 @@ namespace Aboba.Items
       if(!other.TryGetComponent<ClientLootObject>(out var loot))
         return;
 
-      _lootService.CollectLoot(OwnerClientId, loot);
+      _serverLootService.CollectLoot(OwnerClientId, loot);
     }
   }
 }

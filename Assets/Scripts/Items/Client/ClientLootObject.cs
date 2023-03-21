@@ -1,9 +1,9 @@
-﻿using Aboba.Items.Descriptors;
+﻿using Aboba.Items.Common.Descriptors;
 using Aboba.Utils;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Aboba.Items
+namespace Aboba.Items.Client
 {
   public class ClientLootObject : NetworkBehaviour
   {

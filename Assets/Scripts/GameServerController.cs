@@ -2,9 +2,12 @@
 using System.Linq;
 using Aboba.Experimental;
 using Aboba.Infrastructure;
-using Aboba.Items;
-using Aboba.Network;
+using Aboba.Items.Client.Services;
+using Aboba.Items.Common.Descriptors;
+using Aboba.Items.Server.Services;
+using Aboba.Network.Client;
 using Aboba.Utils;
+using Cysharp.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 using VContainer;
@@ -18,6 +21,8 @@ namespace Aboba
   {
     [SerializeField]
     private NetworkObject _heroPrefab = null!;
+    [SerializeField]
+    private ItemsReference _itemsReference = null!;
     
     [SerializeField, HideInInspector]
     private PlayerInput _playerInput = null!;
@@ -27,6 +32,8 @@ namespace Aboba
     private NetworkObjectPool _networkObjectPool = null!;
     [SerializeField, HideInInspector]
     private List<GameObject> _networkPrefabs = null!;
+    [SerializeField, HideInInspector]
+    private ClientRequestManager _clientRequestManager = null!; 
 
     protected override void Awake()
     {
@@ -40,11 +47,14 @@ namespace Aboba
       builder.RegisterComponent(_playerInput);
       builder.RegisterComponent(FindObjectOfType<NetworkManager>());
       builder.RegisterComponent(_networkObjectPool);
-      builder.Register<InventoryService>(Lifetime.Singleton);
-      builder.Register<LootService>(Lifetime.Singleton);
+      builder.Register<ServerLootService>(Lifetime.Singleton);
       builder.Register<CurrentPlayerService>(Lifetime.Singleton);
       builder.Register<ResourceService>(Lifetime.Singleton);
       builder.Register<FromResourceFactory>(Lifetime.Singleton);
+      builder.Register<ServerInventoryService>(Lifetime.Singleton);
+      builder.Register<ClientInventoryService>(Lifetime.Singleton);
+      builder.RegisterComponent(_clientRequestManager).As<IRequestManager>();
+      builder.RegisterInstance(_itemsReference);
     }
 
     private void OnNetworkSpawned()
@@ -70,16 +80,21 @@ namespace Aboba
       {
         Container.Resolve<CurrentPlayerService>().CurrentPlayerId = clientId;
       }
-      
-      if(!networkManager.IsServer)
-        return;
 
-      var spawnPoint = Vector3.zero;
+      if(networkManager.IsServer)
+      {
+        var spawnPoint = Vector3.zero;
       
-      var hero = Instantiate(_heroPrefab, spawnPoint, Quaternion.identity);
-      hero.SpawnWithOwnership(clientId, true);
+        var hero = Instantiate(_heroPrefab, spawnPoint, Quaternion.identity);
+        hero.SpawnWithOwnership(clientId, true);
 
-      Container.Resolve<InventoryService>().AddInventory(clientId);
+        Container.Resolve<ServerInventoryService>().AddInventory(clientId);
+      }
+
+      if(networkManager.IsClient)
+      {
+        Container.Resolve<ClientInventoryService>().InitializeAsync().Forget();
+      }
     }
     
     private void OnClientDisconnected(ulong clientId)
@@ -95,6 +110,7 @@ namespace Aboba
       _playerInput = this.RequireComponent<PlayerInput>();
       _networkHooks = this.RequireComponent<NetworkHooks>();
       _networkObjectPool = this.RequireComponent<NetworkObjectPool>();
+      _clientRequestManager = this.RequireComponent<ClientRequestManager>();
 
       _networkPrefabs = new List<GameObject>();
 

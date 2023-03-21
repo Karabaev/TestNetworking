@@ -1,4 +1,4 @@
-﻿using Aboba.Items.UI;
+﻿using Aboba.Items.Client.UI;
 using Aboba.Utils;
 using Cysharp.Threading.Tasks;
 using TMPro;
