@@ -14,6 +14,18 @@ namespace Aboba.Items.Common.Model
     public event Action<int>? ItemAdded;
     
     public event Action<int>? ItemRemoved;
+
+    public bool AddItemsToSlot(int slotIndex, InventoryItemDescriptor itemDescriptor, int count = 1)
+    {
+      var slot = _slots[slotIndex];
+
+      if(slot.Item != itemDescriptor)
+        return false;
+      
+      slot.AddItems(itemDescriptor, count);
+      ItemAdded?.Invoke(slot.Index);
+      return true;
+    }
     
     public bool AddItems(InventoryItemDescriptor itemDescriptor, int count = 1)
     {

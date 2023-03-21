@@ -2,9 +2,11 @@
 using System.Linq;
 using Aboba.Experimental;
 using Aboba.Infrastructure;
+using Aboba.Items.Client.Services;
 using Aboba.Items.Common.Descriptors;
 using Aboba.Items.Server.Services;
 using Aboba.Network.Client;
+using Aboba.Network.Server;
 using Aboba.Utils;
 using Unity.Netcode;
 using UnityEngine;
@@ -31,6 +33,10 @@ namespace Aboba
     [SerializeField, HideInInspector]
     private NetworkObjectPool _networkObjectPool = null!;
     [SerializeField, HideInInspector]
+    private ServerCommandManager _serverCommandManager = null!;
+    [SerializeField, HideInInspector]
+    private ClientRequestManager _clientRequestManager = null!;
+    [SerializeField, HideInInspector]
     private List<GameObject> _networkPrefabs = null!;
 
     protected override void Awake()
@@ -42,14 +48,22 @@ namespace Aboba
     
     protected override void Configure(IContainerBuilder builder)
     {
+      // server dependencies
       builder.RegisterComponent(_playerInput);
       builder.RegisterComponent(FindObjectOfType<NetworkManager>());
       builder.RegisterComponent(_networkObjectPool);
+      builder.RegisterComponent(_serverCommandManager).As<IServerCommandManager>();
       builder.Register<ServerLootService>(Lifetime.Singleton);
       builder.Register<ResourceService>(Lifetime.Singleton);
       builder.Register<FromResourceFactory>(Lifetime.Singleton);
       builder.Register<ServerInventoryService>(Lifetime.Singleton);
+      builder.Register<ClientRequestReceiver>(Lifetime.Singleton);
       builder.RegisterInstance(_itemsReference);
+      
+      // client dependencies
+      builder.Register<ServerCommandReceiver>(Lifetime.Singleton);
+      builder.Register<ClientInventoryService>(Lifetime.Singleton);
+      builder.RegisterComponent(_clientRequestManager).As<IClientRequestManager>();
     }
 
     private void OnNetworkSpawned()
@@ -79,6 +93,7 @@ namespace Aboba
       var controller = Instantiate(_clientControllerPrefab);
       controller.name = $"ClientController_{clientId}";
       controller.RequireComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
+      controller.transform.AddChild(hero);
     }
     
     private void OnClientDisconnected(ulong clientId)
@@ -94,6 +109,8 @@ namespace Aboba
       _playerInput = this.RequireComponent<PlayerInput>();
       _networkHooks = this.RequireComponent<NetworkHooks>();
       _networkObjectPool = this.RequireComponent<NetworkObjectPool>();
+      _serverCommandManager = this.RequireComponent<ServerCommandManager>();
+      _clientRequestManager = this.RequireComponent<ClientRequestManager>();
 
       _networkPrefabs = new List<GameObject>();
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using Aboba.Items.Common.Net.Dto;
 using Aboba.Items.Server.Services;
+using Aboba.Network.Server;
 using Cysharp.Threading.Tasks;
 using Unity.Netcode;
 using VContainer;
@@ -10,10 +11,10 @@ namespace Aboba.Network.Client
   /// <summary>
   /// Работает на клиенте в контексте игрока.
   /// </summary>
-  public class ClientRequestManager : NetworkBehaviour, IRequestManager
+  public class ClientRequestManager : NetworkBehaviour, IClientRequestManager
   {
     [Inject]
-    private ServerInventoryService _serverInventoryService = null!;
+    private ClientRequestReceiver _clientRequestReceiver = null!;
     
     private UniTaskCompletionSource<InventoryDto> _taskCompletionSource = null!;
 
@@ -33,9 +34,7 @@ namespace Aboba.Network.Client
       if(!NetworkManager.ConnectedClients.ContainsKey(OwnerClientId))
         return;
 
-      var inventory = _serverInventoryService.GetInventory(OwnerClientId);
-      var dto = new InventoryDto(inventory);
-      
+      var dto = _clientRequestReceiver.GetUserInventory(OwnerClientId);
       ResponseClientRpc(dto, NetworkUtils.CreateClientRpcParams(OwnerClientId));
     }
     

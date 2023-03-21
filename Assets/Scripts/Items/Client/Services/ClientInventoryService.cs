@@ -8,7 +8,7 @@ namespace Aboba.Items.Client.Services
 {
   public class ClientInventoryService
   {
-    private readonly IRequestManager _requestManager;
+    private readonly IClientRequestManager _requestManager;
     private readonly ItemsReference _itemsReference;
 
     public bool Initialized { get; private set; }
@@ -24,15 +24,21 @@ namespace Aboba.Items.Client.Services
       {
         if(string.IsNullOrEmpty(slot.ItemId))
           continue;
-        
+
         var descriptor = _itemsReference.Items.First(i => i.Id == slot.ItemId);
-        Inventory.AddItems((InventoryItemDescriptor)descriptor, slot.Count);
+        Inventory.AddItemsToSlot(slot.InventoryIndex, (InventoryItemDescriptor)descriptor, slot.Count);
       }
 
       Initialized = true;
     }
 
-    public ClientInventoryService(IRequestManager requestManager, ItemsReference itemsReference)
+    public bool AddItems(string itemId, int count)
+    {
+      var descriptor = _itemsReference.Items.First(i => i.Id == itemId);
+      return Inventory.AddItems((InventoryItemDescriptor)descriptor, count);
+    }
+
+    public ClientInventoryService(IClientRequestManager requestManager, ItemsReference itemsReference)
     {
       _requestManager = requestManager;
       _itemsReference = itemsReference;

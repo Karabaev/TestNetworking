@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 
 namespace Aboba.Network.Client
 {
-  public interface IRequestManager
+  public interface IClientRequestManager
   {
     UniTask<InventoryDto> RequestUserInventoryAsync();
   }

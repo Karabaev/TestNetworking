@@ -1,12 +1,15 @@
 using System.Collections.Generic;
 using Aboba.Items.Common.Descriptors;
 using Aboba.Items.Common.Model;
+using Aboba.Network.Server;
 
 namespace Aboba.Items.Server.Services
 {
   public class ServerInventoryService
   {
     private const int InventorySize = 10;
+
+    private readonly ServerCommandManager _serverCommandManager;
 
     private readonly Dictionary<ulong, Inventory> _inventories = new(2);
 
@@ -18,7 +21,7 @@ namespace Aboba.Items.Server.Services
 
       if(result)
       {
-        
+        _serverCommandManager.NotifyInventoryItemAdded(ownerId, itemDescriptor.Id, 1);
       }
 
       return result;
@@ -30,5 +33,7 @@ namespace Aboba.Items.Server.Services
     }
 
     public void AddInventory(ulong ownerId) => _inventories.Add(ownerId, new Inventory(InventorySize));
+
+    public ServerInventoryService(ServerCommandManager serverCommandManager) => _serverCommandManager = serverCommandManager;
   }
 }

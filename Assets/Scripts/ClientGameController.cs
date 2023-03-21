@@ -14,8 +14,7 @@ namespace Aboba
   {
     [SerializeField, HideInInspector]
     private NetworkHooks _networkHooks = null!;
-    [SerializeField, HideInInspector]
-    private ClientRequestManager _clientRequestManager = null!;
+
     
     protected override void Awake()
     {
@@ -26,8 +25,6 @@ namespace Aboba
     protected override void Configure(IContainerBuilder builder)
     {
       base.Configure(builder);
-      builder.RegisterComponent(_clientRequestManager).As<IRequestManager>();
-      builder.Register<ClientInventoryService>(Lifetime.Singleton);
       builder.Register<ResourceService>(Lifetime.Singleton);
       builder.Register<FromResourceFactory>(Lifetime.Singleton);
       builder.Register<UIService>(Lifetime.Singleton);
@@ -53,7 +50,6 @@ namespace Aboba
     private void OnValidate()
     {
       _networkHooks = this.RequireComponent<NetworkHooks>();
-      _clientRequestManager = this.RequireComponent<ClientRequestManager>();
     }
   }
 }
