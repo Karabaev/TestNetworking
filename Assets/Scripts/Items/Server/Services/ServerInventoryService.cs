@@ -9,7 +9,7 @@ namespace Aboba.Items.Server.Services
   {
     private const int InventorySize = 10;
 
-    private readonly ServerCommandManager _serverCommandManager;
+    private readonly IServerCommandSender _serverCommandSender;
 
     private readonly Dictionary<ulong, Inventory> _inventories = new(2);
 
@@ -21,7 +21,8 @@ namespace Aboba.Items.Server.Services
 
       if(result)
       {
-        _serverCommandManager.NotifyInventoryItemAdded(ownerId, itemDescriptor.Id, 1);
+        var command = new AddedInventoryItemServerCommand_ServerSide(itemDescriptor.Id, 1);
+        _serverCommandSender.SendCommand(ownerId, command);
       }
 
       return result;
@@ -34,6 +35,6 @@ namespace Aboba.Items.Server.Services
 
     public void AddInventory(ulong ownerId) => _inventories.Add(ownerId, new Inventory(InventorySize));
 
-    public ServerInventoryService(ServerCommandManager serverCommandManager) => _serverCommandManager = serverCommandManager;
+    public ServerInventoryService(IServerCommandSender serverCommandSender) => _serverCommandSender = serverCommandSender;
   }
 }

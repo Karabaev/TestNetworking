@@ -33,7 +33,7 @@ namespace Aboba
     [SerializeField, HideInInspector]
     private NetworkObjectPool _networkObjectPool = null!;
     [SerializeField, HideInInspector]
-    private ServerCommandManager _serverCommandManager = null!;
+    private ServerCommandSender _serverCommandManager = null!;
     [SerializeField, HideInInspector]
     private ClientRequestManager _clientRequestManager = null!;
     [SerializeField, HideInInspector]
@@ -52,7 +52,7 @@ namespace Aboba
       builder.RegisterComponent(_playerInput);
       builder.RegisterComponent(FindObjectOfType<NetworkManager>());
       builder.RegisterComponent(_networkObjectPool);
-      builder.RegisterComponent(_serverCommandManager).As<IServerCommandManager>();
+      builder.RegisterComponent(_serverCommandManager).As<IServerCommandSender>();
       builder.Register<ServerLootService>(Lifetime.Singleton);
       builder.Register<ResourceService>(Lifetime.Singleton);
       builder.Register<FromResourceFactory>(Lifetime.Singleton);
@@ -109,7 +109,7 @@ namespace Aboba
       _playerInput = this.RequireComponent<PlayerInput>();
       _networkHooks = this.RequireComponent<NetworkHooks>();
       _networkObjectPool = this.RequireComponent<NetworkObjectPool>();
-      _serverCommandManager = this.RequireComponent<ServerCommandManager>();
+      _serverCommandManager = this.RequireComponent<ServerCommandSender>();
       _clientRequestManager = this.RequireComponent<ClientRequestManager>();
 
       _networkPrefabs = new List<GameObject>();

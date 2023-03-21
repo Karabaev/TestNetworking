@@ -1,8 +1,9 @@
-﻿using Unity.Netcode;
+﻿using Aboba.Network.Server;
+using Unity.Netcode;
 
 namespace Aboba.Items.Common.Net.Dto
 {
-  public struct AddedInventoryItemDto : INetworkSerializable
+  public struct AddedInventoryItemDto : IDto
   {
     private string _itemId;
     private int _count;
@@ -10,6 +11,8 @@ namespace Aboba.Items.Common.Net.Dto
     public string ItemId => _itemId;
 
     public int Count => _count;
+    
+    public IDto.DtoType Type => IDto.DtoType.AddedInventoryItemDto;
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
