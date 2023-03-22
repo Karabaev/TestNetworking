@@ -2,11 +2,8 @@
 using System.Linq;
 using Aboba.Experimental;
 using Aboba.Infrastructure;
-using Aboba.Items.Client.Services;
 using Aboba.Items.Common.Descriptors;
 using Aboba.Items.Server.Services;
-using Aboba.Network.Client;
-using Aboba.Network.Server;
 using Aboba.Network.Server.Services;
 using Aboba.Utils;
 using Unity.Netcode;
@@ -60,10 +57,6 @@ namespace Aboba
       builder.Register<ServerInventoryService>(Lifetime.Singleton);
       builder.Register<ClientRequestReceiver>(Lifetime.Singleton);
       builder.RegisterInstance(_itemsReference);
-      
-      // client dependencies
-
-      
     }
 
     private void OnNetworkSpawned()

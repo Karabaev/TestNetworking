@@ -1,6 +1,5 @@
 using Aboba.Infrastructure;
 using Aboba.Items.Client.Services;
-using Aboba.Network.Client;
 using Aboba.Network.Client.Service;
 using Aboba.Player;
 using Aboba.UI;
@@ -44,6 +43,7 @@ namespace Aboba
       if(!_networkHooks.IsOwner)
         return;
       
+      ObjectResolversRegistry.LocalObjectResolver = Container;
       Container.Resolve<CurrentPlayerService>().CurrentPlayerId = _networkHooks.OwnerClientId;
       
       await Container.Resolve<ClientInventoryService>().InitializeAsync();

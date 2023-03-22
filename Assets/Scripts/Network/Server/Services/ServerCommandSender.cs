@@ -1,5 +1,6 @@
 ﻿using Aboba.Network.Client.Service;
 using Aboba.Network.Common;
+using JetBrains.Annotations;
 using Unity.Netcode;
 using VContainer;
 
@@ -10,16 +11,21 @@ namespace Aboba.Network.Server.Services
   /// </summary>
   public class ServerCommandSender : NetworkBehaviour, IServerCommandSender
   {
+    /// <summary>
+    /// Отправляет команду указанному клиенту.
+    /// </summary>
     public void SendCommand<TDto>(ulong clientId, IServerCommand_ServerSide<TDto> command) where TDto : IDto
     {
       var rpcParams = NetworkUtils.CreateClientRpcParams(clientId);
-      ExecuteCommandClientRpc(clientId, command.Key, new DtoWrapper(command.Payload), rpcParams);
+      ExecuteCommandClientRpc(command.Key, new DtoWrapper(command.Payload), rpcParams);
     }
-
+    
+    [UsedImplicitly]
     [ClientRpc]
-    private void ExecuteCommandClientRpc(ulong clientId, int key, DtoWrapper payload, ClientRpcParams rpcParams = default)
+    private void ExecuteCommandClientRpc(int key, DtoWrapper payload, ClientRpcParams rpcParams = default)
     {
-      var serverCommandReceiver = ObjectResolversRegistry.Get(clientId).Resolve<ServerCommandReceiver>();
+      var localObjectResolver = ObjectResolversRegistry.LocalObjectResolver;
+      var serverCommandReceiver = localObjectResolver.Resolve<ServerCommandReceiver>();
       serverCommandReceiver.OnCommandReceived(key, payload.Dto);
     }
   }
