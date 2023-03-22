@@ -2,7 +2,8 @@
 using Aboba.Items.Client.Net;
 using Aboba.Items.Server.Net;
 using Aboba.Network.Common;
-using VContainer;
+using Aboba.Player.Client;
+using Aboba.Player.Server;
 
 namespace Aboba.Network.Client.Service
 {
@@ -15,12 +16,13 @@ namespace Aboba.Network.Client.Service
 
     public void OnCommandReceived<TDto>(int key, TDto payload) where TDto : IDto
     {
-      _commandsRegistry[key].Execute(payload);
+      _commandsRegistry[key].Execute(payload, ObjectResolversRegistry.LocalObjectResolver);
     }
 
-    public ServerCommandReceiver(IObjectResolver objectResolver)
+    public ServerCommandReceiver()
     {
-      _commandsRegistry[AddedInventoryItemServerCommand_ServerSide.CommandKey] = new AddedInventoryItemServerCommand_ClientSide(objectResolver);
+      _commandsRegistry[AddedInventoryItemServerCommand_ServerSide.CommandKey] = new AddedInventoryItemServerCommand_ClientSide();
+      _commandsRegistry[ClientConnectedServerCommand_ServerSide.CommandKey] = new ClientConnectedServerCommand_ClientSide();
     }
   }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Aboba.Items.Common.Net.Dto;
+using Aboba.Player.Common.Net;
 using Unity.Netcode;
 
 namespace Aboba.Network.Common
@@ -18,7 +19,9 @@ namespace Aboba.Network.Common
       {
         _dto = _type switch
                {
+                 IDto.DtoType.Dummy => new DummyDto(),
                  IDto.DtoType.AddedInventoryItemDto => new AddedInventoryItemDto(),
+                 IDto.DtoType.ClientConnected => new ClientConnectedDto(),
                  _ => throw new ArgumentOutOfRangeException()
                };
       }

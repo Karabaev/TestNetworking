@@ -24,9 +24,8 @@ namespace Aboba.Network.Server.Services
     [ClientRpc]
     private void ExecuteCommandClientRpc(int key, DtoWrapper payload, ClientRpcParams rpcParams = default)
     {
-      var localObjectResolver = ObjectResolversRegistry.LocalObjectResolver;
-      var serverCommandReceiver = localObjectResolver.Resolve<ServerCommandReceiver>();
-      serverCommandReceiver.OnCommandReceived(key, payload.Dto);
+      var commandReceiver = ObjectResolversRegistry.LocalObjectResolver.Resolve<ServerCommandReceiver>();
+      commandReceiver.OnCommandReceived(key, payload.Dto);
     }
   }
 }

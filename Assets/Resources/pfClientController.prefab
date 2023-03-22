@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8671582387446271711}
-  - component: {fileID: 8671582387446271709}
+  - component: {fileID: 5381213531876766683}
   - component: {fileID: 7070247220564661235}
-  - component: {fileID: 8090543121238523403}
   - component: {fileID: 6386782666607246876}
+  - component: {fileID: 2968911211701768683}
   m_Layer: 0
-  m_Name: pfClientApp
+  m_Name: pfClientController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8671582387446271709
+--- !u!114 &5381213531876766683
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -67,20 +67,8 @@ MonoBehaviour:
     TypeName: Aboba.ServerGameController
   autoRun: 1
   autoInjectGameObjects: []
-  _networkHooks: {fileID: 8090543121238523403}
   _clientRequestManager: {fileID: 6386782666607246876}
---- !u!114 &8090543121238523403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8671582387446271708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95563dbc9d6a440c911d3c3518c89904, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _networkHooks: {fileID: 2968911211701768683}
 --- !u!114 &6386782666607246876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,5 +79,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c38489aa4d374150bbf0673b9d97ac9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2968911211701768683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8671582387446271708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95563dbc9d6a440c911d3c3518c89904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

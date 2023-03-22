@@ -529,8 +529,6 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects:
-  - {fileID: 651670761}
-  - {fileID: 651670761}
   - {fileID: 1700807822}
   - {fileID: 1700807822}
   - {fileID: 838788892}
@@ -554,6 +552,7 @@ MonoBehaviour:
   - {fileID: 651670761}
   - {fileID: 651670761}
   - {fileID: 651670761}
+  - {fileID: 651670761}
   - {fileID: 2102073734}
   - {fileID: 2102073734}
   _heroPrefab: {fileID: -7196880853630786775, guid: c7a28af21f74b0f418c7bb385c5a6384, type: 3}
@@ -565,7 +564,6 @@ MonoBehaviour:
   _serverCommandManager: {fileID: 651670768}
   _networkPrefabs:
   - {fileID: 3902254619862178815, guid: c7a28af21f74b0f418c7bb385c5a6384, type: 3}
-  - {fileID: 8671582387446271708, guid: 165f8836252d86f4dade53bdc2b77957, type: 3}
 --- !u!114 &651670765
 MonoBehaviour:
   m_ObjectHideFlags: 0

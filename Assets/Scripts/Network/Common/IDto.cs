@@ -8,7 +8,9 @@ namespace Aboba.Network.Common
     
     public enum DtoType
     {
-      AddedInventoryItemDto = 0
+      Dummy = -1,
+      AddedInventoryItemDto = 0,
+      ClientConnected = 1
     }
   }
 }

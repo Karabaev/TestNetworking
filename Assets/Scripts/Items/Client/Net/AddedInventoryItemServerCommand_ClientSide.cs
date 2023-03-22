@@ -8,17 +8,10 @@ namespace Aboba.Items.Client.Net
 {
   public class AddedInventoryItemServerCommand_ClientSide : IServerCommand_ClientSide
   {
-    private readonly IObjectResolver _objectResolver;
-    
-    public void Execute(IDto payload)
+    public void Execute(IDto payload, IObjectResolver objectResolver)
     {
       var dto = (AddedInventoryItemDto)payload;
-      _objectResolver.Resolve<ClientInventoryService>().AddItems(dto.ItemId, dto.Count);
-    }
-
-    public AddedInventoryItemServerCommand_ClientSide(IObjectResolver objectResolver)
-    {
-      _objectResolver = objectResolver;
+      objectResolver.Resolve<ClientInventoryService>().AddItems(dto.ItemId, dto.Count);
     }
   }
 }

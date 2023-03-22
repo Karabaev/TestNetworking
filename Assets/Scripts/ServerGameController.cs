@@ -5,6 +5,7 @@ using Aboba.Infrastructure;
 using Aboba.Items.Common.Descriptors;
 using Aboba.Items.Server.Services;
 using Aboba.Network.Server.Services;
+using Aboba.Player.Server;
 using Aboba.Utils;
 using Unity.Netcode;
 using UnityEngine;
@@ -40,8 +41,8 @@ namespace Aboba
     protected override void Awake()
     {
       base.Awake();
-      _networkHooks.OnNetworkSpawnHook += OnNetworkSpawned;
-      _networkHooks.OnNetworkDespawnHook += OnNetworkDespawned;
+      _networkHooks.NetworkSpawnHook += OnNetworkSpawned;
+      _networkHooks.NetworkDespawnHook += OnNetworkDespawned;
     }
     
     protected override void Configure(IContainerBuilder builder)
@@ -87,6 +88,8 @@ namespace Aboba
       controller.transform.AddChild(hero);
 
       ObjectResolversRegistry.Add(clientId, controller.Container);
+      
+      Container.Resolve<ServerCommandSender>().SendCommand(clientId, new ClientConnectedServerCommand_ServerSide(clientId));
     }
     
     private void OnClientDisconnected(ulong clientId)
