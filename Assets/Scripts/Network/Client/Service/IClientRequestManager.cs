@@ -5,8 +5,8 @@ namespace Aboba.Network.Client.Service
 {
   public interface IClientRequestManager
   {
-    UniTask<TResponse> SendRequestAsync<TDto, TResponse>(IClientRequest_ClientSide<TDto> request) where TDto : IDto where TResponse : IDto;
+    UniTask<TResponse> SendRequestAsync<TDto, TResponse>(ClientRequest<TDto> request) where TDto : IDto where TResponse : IDto;
     
-    UniTask<IDto> SendRequestAsync<TDto>(IClientRequest_ClientSide<TDto> request) where TDto : IDto;
+    UniTask<IDto> SendRequestAsync<TDto>(ClientRequest<TDto> request) where TDto : IDto;
   }
 }

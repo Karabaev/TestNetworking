@@ -13,13 +13,13 @@ namespace Aboba.Network.Client.Service
   {
     private UniTaskCompletionSource<IDto> _taskCompletionSource = null!;
 
-    public async UniTask<TResponse> SendRequestAsync<TDto, TResponse>(IClientRequest_ClientSide<TDto> request) where TDto : IDto where TResponse : IDto
+    public async UniTask<TResponse> SendRequestAsync<TDto, TResponse>(ClientRequest<TDto> request) where TDto : IDto where TResponse : IDto
     {
       var result = await SendRequestAsync(request);
       return (TResponse)result;
     }
 
-    public UniTask<IDto> SendRequestAsync<TDto>(IClientRequest_ClientSide<TDto> request) where TDto : IDto
+    public UniTask<IDto> SendRequestAsync<TDto>(ClientRequest<TDto> request) where TDto : IDto
     {
       _taskCompletionSource = new UniTaskCompletionSource<IDto>();
       HandleRequestServerRpc(request.Key, new DtoWrapper(request.Payload));

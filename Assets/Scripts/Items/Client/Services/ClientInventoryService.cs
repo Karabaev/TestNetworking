@@ -2,6 +2,7 @@
 using Aboba.Items.Client.Net;
 using Aboba.Items.Common.Descriptors;
 using Aboba.Items.Common.Model;
+using Aboba.Items.Common.Net;
 using Aboba.Items.Common.Net.Dto;
 using Aboba.Network.Client.Service;
 using Aboba.Player;
@@ -22,7 +23,7 @@ namespace Aboba.Items.Client.Services
     public async UniTask InitializeAsync()
     {
       var userId = _currentPlayerService.CurrentPlayerId;
-      var response = await _requestManager.SendRequestAsync<GetUserInventoryDto, GetUserInventoryResponse>(new GetUserInventoryClientRequest_ClientSide(userId));
+      var response = await _requestManager.SendRequestAsync<GetUserInventoryDto, GetUserInventoryResponse>(new GetUserInventoryClientRequest(userId));
       Inventory = new Inventory(response.Slots.Count);
       
       foreach(var slot in response.Slots)

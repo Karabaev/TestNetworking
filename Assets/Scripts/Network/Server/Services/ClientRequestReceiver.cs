@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using Aboba.Items.Client.Net;
-using Aboba.Items.Server.Net;
+using Aboba.Items.Common.Net;
 using Aboba.Network.Common;
 using VContainer;
 
@@ -13,7 +12,7 @@ namespace Aboba.Network.Server.Services
   {
     private readonly IObjectResolver _objectResolver;
 
-    private readonly Dictionary<int, IClientRequest_ServerSide> _requestsRegistry = new();
+    private readonly Dictionary<int, IClientRequest> _requestsRegistry = new();
 
     public IDto HandleRequest(int key, IDto payload)
     {
@@ -24,7 +23,7 @@ namespace Aboba.Network.Server.Services
     public ClientRequestReceiver(IObjectResolver objectResolver)
     {
       _objectResolver = objectResolver;
-      _requestsRegistry[GetUserInventoryClientRequest_ClientSide.RequestKey] = new GetUserInventoryClientRequest_ServerSide();
+      _requestsRegistry[GetUserInventoryClientRequest.RequestKey] = new GetUserInventoryClientRequest();
     }
   }
 }
