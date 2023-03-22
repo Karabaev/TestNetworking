@@ -6,7 +6,11 @@ namespace Aboba.Network
   {
     public static ClientRpcParams CreateClientRpcParams(ulong clientId)
     {
-      return new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new[] { clientId } } };
+      return new ClientRpcParams
+             {
+               Receive = new ClientRpcReceiveParams(),
+               Send = new ClientRpcSendParams { TargetClientIds = new[] { clientId } }
+             };
     }
   }
 }

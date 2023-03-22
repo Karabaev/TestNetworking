@@ -34,10 +34,10 @@ namespace Aboba
     private NetworkObjectPool _networkObjectPool = null!;
     [SerializeField, HideInInspector]
     private ServerCommandSender _serverCommandManager = null!;
-    [SerializeField, HideInInspector]
-    private ClientRequestManager _clientRequestManager = null!;
+
     [SerializeField, HideInInspector]
     private List<GameObject> _networkPrefabs = null!;
+
 
     protected override void Awake()
     {
@@ -61,9 +61,8 @@ namespace Aboba
       builder.RegisterInstance(_itemsReference);
       
       // client dependencies
-      builder.Register<ServerCommandReceiver>(Lifetime.Singleton);
-      builder.Register<ClientInventoryService>(Lifetime.Singleton);
-      builder.RegisterComponent(_clientRequestManager).As<IClientRequestManager>();
+
+      
     }
 
     private void OnNetworkSpawned()
@@ -76,10 +75,8 @@ namespace Aboba
       networkManager.OnClientConnectedCallback += OnClientConnected;
       networkManager.OnClientDisconnectCallback += OnClientDisconnected;
     }
-    
-    private void OnNetworkDespawned()
-    {
-    }
+
+    private void OnNetworkDespawned() { }
     
     private void OnClientConnected(ulong clientId)
     {
@@ -94,6 +91,8 @@ namespace Aboba
       controller.name = $"ClientController_{clientId}";
       controller.RequireComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
       controller.transform.AddChild(hero);
+
+      ObjectResolversRegistry.Add(clientId, controller.Container);
     }
     
     private void OnClientDisconnected(ulong clientId)
@@ -102,6 +101,8 @@ namespace Aboba
       
       foreach(var obj in networkManager.SpawnManager.GetClientOwnedObjects(clientId))
         obj.Despawn();
+
+      ObjectResolversRegistry.Remove(clientId);
     }
 
     private void OnValidate()
@@ -110,7 +111,6 @@ namespace Aboba
       _networkHooks = this.RequireComponent<NetworkHooks>();
       _networkObjectPool = this.RequireComponent<NetworkObjectPool>();
       _serverCommandManager = this.RequireComponent<ServerCommandSender>();
-      _clientRequestManager = this.RequireComponent<ClientRequestManager>();
 
       _networkPrefabs = new List<GameObject>();
 

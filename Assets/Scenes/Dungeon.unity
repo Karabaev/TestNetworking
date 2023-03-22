@@ -475,7 +475,6 @@ GameObject:
   - component: {fileID: 651670766}
   - component: {fileID: 651670767}
   - component: {fileID: 651670768}
-  - component: {fileID: 651670769}
   m_Layer: 0
   m_Name: App
   m_TagString: Untagged
@@ -531,6 +530,7 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects:
   - {fileID: 651670761}
+  - {fileID: 651670761}
   - {fileID: 1700807822}
   - {fileID: 1700807822}
   - {fileID: 838788892}
@@ -563,7 +563,6 @@ MonoBehaviour:
   _networkHooks: {fileID: 651670766}
   _networkObjectPool: {fileID: 651670767}
   _serverCommandManager: {fileID: 651670768}
-  _clientRequestManager: {fileID: 0}
   _networkPrefabs:
   - {fileID: 3902254619862178815, guid: c7a28af21f74b0f418c7bb385c5a6384, type: 3}
   - {fileID: 8671582387446271708, guid: 165f8836252d86f4dade53bdc2b77957, type: 3}
@@ -613,18 +612,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98458968dd164817b4e1712b53642e9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &651670769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 651670761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c38489aa4d374150bbf0673b9d97ac9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &705507993

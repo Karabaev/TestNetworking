@@ -2,25 +2,24 @@
 using Aboba.Items.Common.Net.Dto;
 using Aboba.Network.Client;
 using Unity.Netcode;
+using UnityEngine;
 using VContainer;
 
 namespace Aboba.Network.Server
 {
   public class ServerCommandSender : NetworkBehaviour, IServerCommandSender
   {
-    [Inject]
-    private readonly ServerCommandReceiver _serverCommandReceiver = null!;
-    
     public void SendCommand<TDto>(ulong clientId, IServerCommand_ServerSide<TDto> command) where TDto : IDto
     {
       var rpcParams = NetworkUtils.CreateClientRpcParams(clientId);
-      ExecuteCommandClientRpc(command.Key, new DtoWrapper(command.Payload), rpcParams);
+      ExecuteCommandClientRpc(clientId, command.Key, new DtoWrapper(command.Payload), rpcParams);
     }
 
     [ClientRpc]
-    private void ExecuteCommandClientRpc(int key, DtoWrapper payload, ClientRpcParams rpcParams = default)
+    private void ExecuteCommandClientRpc(ulong clientId, int key, DtoWrapper payload, ClientRpcParams rpcParams = default)
     {
-      _serverCommandReceiver.OnCommandReceived(key, payload.Dto);
+      var serverCommandReceiver = ObjectResolversRegistry.Get(clientId).Resolve<ServerCommandReceiver>();
+      serverCommandReceiver.OnCommandReceived(key, payload.Dto);
     }
   }
 

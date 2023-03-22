@@ -2,7 +2,6 @@
 using Aboba.Items.Client.Services;
 using Aboba.Items.Common.Net.Dto;
 using Aboba.Network.Server;
-using Unity.Netcode;
 using VContainer;
 
 namespace Aboba.Network.Client
