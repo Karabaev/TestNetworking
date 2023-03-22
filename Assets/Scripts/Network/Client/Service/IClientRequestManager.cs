@@ -1,7 +1,7 @@
 using Aboba.Items.Common.Net.Dto;
 using Cysharp.Threading.Tasks;
 
-namespace Aboba.Network.Client
+namespace Aboba.Network.Client.Service
 {
   public interface IClientRequestManager
   {

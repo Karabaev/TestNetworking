@@ -2,6 +2,7 @@
 using Aboba.Items.Common.Descriptors;
 using Aboba.Items.Common.Model;
 using Aboba.Network.Client;
+using Aboba.Network.Client.Service;
 using Cysharp.Threading.Tasks;
 
 namespace Aboba.Items.Client.Services

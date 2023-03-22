@@ -1,15 +1,14 @@
 ﻿using System;
 using Aboba.Items.Common.Net.Dto;
-using Aboba.Items.Server.Services;
-using Aboba.Network.Server;
+using Aboba.Network.Server.Services;
 using Cysharp.Threading.Tasks;
 using Unity.Netcode;
 using VContainer;
 
-namespace Aboba.Network.Client
+namespace Aboba.Network.Client.Service
 {
   /// <summary>
-  /// Работает на клиенте в контексте игрока.
+  /// Отправляет запросы на сервер. Работает на клиентской стороне в контексте игрока.
   /// </summary>
   public class ClientRequestManager : NetworkBehaviour, IClientRequestManager
   {

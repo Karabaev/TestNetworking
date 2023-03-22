@@ -1,4 +1,6 @@
-﻿namespace Aboba.Network.Server
+﻿using Aboba.Network.Common;
+
+namespace Aboba.Network.Server.Services
 {
   public interface IServerCommandSender
   {

@@ -3,6 +3,7 @@ using Aboba.Infrastructure;
 using Aboba.Items.Client.Services;
 using Aboba.Items.Common.Model;
 using Aboba.Network.Client;
+using Aboba.Player;
 using Aboba.Utils;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
