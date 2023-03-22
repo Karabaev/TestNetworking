@@ -14,7 +14,7 @@ namespace Aboba.Network.Client.Service
   {
     private readonly Dictionary<int, IServerCommand_ClientSide> _commandsRegistry = new();
 
-    public void OnCommandReceived<TDto>(int key, TDto payload) where TDto : IDto
+    public void OnCommandReceived(int key, IDto payload)
     {
       _commandsRegistry[key].Execute(payload, ObjectResolversRegistry.LocalObjectResolver);
     }

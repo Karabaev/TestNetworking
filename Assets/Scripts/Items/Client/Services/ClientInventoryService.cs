@@ -1,8 +1,10 @@
 ﻿using System.Linq;
+using Aboba.Items.Client.Net;
 using Aboba.Items.Common.Descriptors;
 using Aboba.Items.Common.Model;
-using Aboba.Network.Client;
+using Aboba.Items.Common.Net.Dto;
 using Aboba.Network.Client.Service;
+using Aboba.Player;
 using Cysharp.Threading.Tasks;
 
 namespace Aboba.Items.Client.Services
@@ -11,6 +13,7 @@ namespace Aboba.Items.Client.Services
   {
     private readonly IClientRequestManager _requestManager;
     private readonly ItemsReference _itemsReference;
+    private readonly CurrentPlayerService _currentPlayerService;
 
     public bool Initialized { get; private set; }
     
@@ -18,10 +21,11 @@ namespace Aboba.Items.Client.Services
     
     public async UniTask InitializeAsync()
     {
-      var inventoryDto = await _requestManager.RequestUserInventoryAsync();
-      Inventory = new Inventory(inventoryDto.Slots.Count);
+      var userId = _currentPlayerService.CurrentPlayerId;
+      var response = await _requestManager.SendRequestAsync<GetUserInventoryDto, GetUserInventoryResponse>(new GetUserInventoryClientRequest_ClientSide(userId));
+      Inventory = new Inventory(response.Slots.Count);
       
-      foreach(var slot in inventoryDto.Slots)
+      foreach(var slot in response.Slots)
       {
         if(string.IsNullOrEmpty(slot.ItemId))
           continue;
@@ -39,10 +43,11 @@ namespace Aboba.Items.Client.Services
       return Inventory.AddItems((InventoryItemDescriptor)descriptor, count);
     }
 
-    public ClientInventoryService(IClientRequestManager requestManager, ItemsReference itemsReference)
+    public ClientInventoryService(IClientRequestManager requestManager, ItemsReference itemsReference, CurrentPlayerService currentPlayerService)
     {
       _requestManager = requestManager;
       _itemsReference = itemsReference;
+      _currentPlayerService = currentPlayerService;
     }
   }
 }

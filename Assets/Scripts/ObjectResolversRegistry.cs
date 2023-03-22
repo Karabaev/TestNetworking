@@ -9,6 +9,11 @@ namespace Aboba
     private static readonly Dictionary<ulong, IObjectResolver> _clientResolvers = new();
 
     /// <summary>
+    /// Серверный резолвер. Инициализируется сервером.
+    /// </summary>
+    public static IObjectResolver ServerObjectResolver { get; set; } = null!;
+    
+    /// <summary>
     /// Клиентский резолвер. Инициализируется клиентом.
     /// </summary>
     public static IObjectResolver LocalObjectResolver { get; set; } = null!;

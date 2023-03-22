@@ -1,5 +1,4 @@
-﻿using System;
-using Aboba.Items.Common.Net.Dto;
+﻿using Aboba.Network.Common;
 using Aboba.Network.Server.Services;
 using Cysharp.Threading.Tasks;
 using Unity.Netcode;
@@ -12,63 +11,34 @@ namespace Aboba.Network.Client.Service
   /// </summary>
   public class ClientRequestManager : NetworkBehaviour, IClientRequestManager
   {
-    [Inject]
-    private ClientRequestReceiver _clientRequestReceiver = null!;
-    
-    private UniTaskCompletionSource<InventoryDto> _taskCompletionSource = null!;
+    private UniTaskCompletionSource<IDto> _taskCompletionSource = null!;
 
-    public UniTask<InventoryDto> RequestUserInventoryAsync()
+    public async UniTask<TResponse> SendRequestAsync<TDto, TResponse>(IClientRequest_ClientSide<TDto> request) where TDto : IDto where TResponse : IDto
     {
-      if(!IsClient || !IsOwner)
-        throw new Exception();
+      var result = await SendRequestAsync(request);
+      return (TResponse)result;
+    }
 
-      _taskCompletionSource = new UniTaskCompletionSource<InventoryDto>();
-      RequestServerRpc();
+    public UniTask<IDto> SendRequestAsync<TDto>(IClientRequest_ClientSide<TDto> request) where TDto : IDto
+    {
+      _taskCompletionSource = new UniTaskCompletionSource<IDto>();
+      HandleRequestServerRpc(request.Key, new DtoWrapper(request.Payload));
       return _taskCompletionSource.Task;
     }
 
     [ServerRpc]
-    private void RequestServerRpc()
+    private void HandleRequestServerRpc(int key, DtoWrapper payload, ServerRpcParams rpcParams = default)
     {
-      if(!NetworkManager.ConnectedClients.ContainsKey(OwnerClientId))
-        return;
+      var clientRequestReceiver = ObjectResolversRegistry.ServerObjectResolver.Resolve<ClientRequestReceiver>();
+      var response = clientRequestReceiver.HandleRequest(key, payload.Dto);
+      var clientRpcParams = NetworkUtils.CreateClientRpcParams(rpcParams.Receive.SenderClientId);
+      ResponseClientRpc(new DtoWrapper(response), clientRpcParams);
+    }
 
-      var dto = _clientRequestReceiver.GetUserInventory(OwnerClientId);
-      ResponseClientRpc(dto, NetworkUtils.CreateClientRpcParams(OwnerClientId));
-    }
-    
     [ClientRpc]
-    private void ResponseClientRpc(InventoryDto payload, ClientRpcParams rpcParams)
+    private void ResponseClientRpc(DtoWrapper response, ClientRpcParams rpcParams)
     {
-      _taskCompletionSource.TrySetResult(payload);
+      _taskCompletionSource.TrySetResult(response.Dto);
     }
-    
-    // [ServerRpc(Delivery = RpcDelivery.Reliable, RequireOwnership = true)]
-    // private void RequestServerRpc(ServerRpcParams rpcParams = default)
-    // {
-    //   var clientId = rpcParams.Receive.SenderClientId;
-    //   if(!NetworkManager.ConnectedClients.ContainsKey(clientId))
-    //     return;
-    //   
-    //   
-    //
-    //   request.GenerateServerResponse();
-    //
-    //   ResponseClientRpc();
-    // }
-    
-    // public UniTask<T> SendRequestAsync<T>(IClientRequest<T> request) where T : IServerResponse
-    // {
-    //   if(!IsClient)
-    //     throw new Exception();
-    //
-    //   _taskCompletionSource = new UniTaskCompletionSource();
-    //   
-    //   RequestServerRpc();
-    //   
-    //   var res = request.GenerateServerResponse();
-    //
-    //   return _taskCompletionSource.Task;
-    // }
   }
 }

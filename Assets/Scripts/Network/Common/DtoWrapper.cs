@@ -22,6 +22,8 @@ namespace Aboba.Network.Common
                  IDto.DtoType.Dummy => new DummyDto(),
                  IDto.DtoType.AddedInventoryItemDto => new AddedInventoryItemDto(),
                  IDto.DtoType.ClientConnected => new ClientConnectedDto(),
+                 IDto.DtoType.GetUserInventory => new GetUserInventoryDto(),
+                 IDto.DtoType.GetUserInventoryResponse => new GetUserInventoryResponse(),
                  _ => throw new ArgumentOutOfRangeException()
                };
       }

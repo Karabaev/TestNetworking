@@ -41,6 +41,7 @@ namespace Aboba
     protected override void Awake()
     {
       base.Awake();
+      ObjectResolversRegistry.ServerObjectResolver = Container;
       _networkHooks.NetworkSpawnHook += OnNetworkSpawned;
       _networkHooks.NetworkDespawnHook += OnNetworkDespawned;
     }

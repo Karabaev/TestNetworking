@@ -1,5 +1,8 @@
-﻿using Aboba.Items.Common.Net.Dto;
-using Aboba.Items.Server.Services;
+﻿using System.Collections.Generic;
+using Aboba.Items.Client.Net;
+using Aboba.Items.Server.Net;
+using Aboba.Network.Common;
+using VContainer;
 
 namespace Aboba.Network.Server.Services
 {
@@ -8,14 +11,20 @@ namespace Aboba.Network.Server.Services
   /// </summary>
   public class ClientRequestReceiver
   {
-    private readonly ServerInventoryService _serverInventoryService;
+    private readonly IObjectResolver _objectResolver;
 
-    public InventoryDto GetUserInventory(ulong clientId)
+    private readonly Dictionary<int, IClientRequest_ServerSide> _requestsRegistry = new();
+
+    public IDto HandleRequest(int key, IDto payload)
     {
-      var inventory = _serverInventoryService.GetInventory(clientId);
-      return new InventoryDto(inventory);
+      var request = _requestsRegistry[key];
+      return request.Execute(_objectResolver, payload);
     }
     
-    public ClientRequestReceiver(ServerInventoryService serverInventoryService) => _serverInventoryService = serverInventoryService;
+    public ClientRequestReceiver(IObjectResolver objectResolver)
+    {
+      _objectResolver = objectResolver;
+      _requestsRegistry[GetUserInventoryClientRequest_ClientSide.RequestKey] = new GetUserInventoryClientRequest_ServerSide();
+    }
   }
 }

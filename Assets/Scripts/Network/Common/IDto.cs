@@ -10,7 +10,9 @@ namespace Aboba.Network.Common
     {
       Dummy = -1,
       AddedInventoryItemDto = 0,
-      ClientConnected = 1
+      ClientConnected = 1,
+      GetUserInventory = 2,
+      GetUserInventoryResponse = 3
     }
   }
 }

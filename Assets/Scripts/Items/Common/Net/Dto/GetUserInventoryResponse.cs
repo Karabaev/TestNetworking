@@ -1,15 +1,18 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Aboba.Items.Common.Model;
+using Aboba.Network.Common;
 using Aboba.Utils;
 using Unity.Netcode;
 
 namespace Aboba.Items.Common.Net.Dto
 {
-  public struct InventoryDto : INetworkSerializable
+  public struct GetUserInventoryResponse : IDto
   {
     private InventorySlotDto[] _slots;
 
     public IReadOnlyList<InventorySlotDto> Slots => _slots;
+    
+    public IDto.DtoType Type => IDto.DtoType.GetUserInventoryResponse;
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
@@ -27,9 +30,9 @@ namespace Aboba.Items.Common.Net.Dto
         serializer.SerializeValue(ref _slots[i]);
     }
 
-    public InventoryDto(InventorySlotDto[] slots) => _slots = slots;
+    public GetUserInventoryResponse(InventorySlotDto[] slots) => _slots = slots;
 
-    public InventoryDto(Inventory source)
+    public GetUserInventoryResponse(Inventory source)
     {
       _slots = new InventorySlotDto[source.Slots.Count];
 
