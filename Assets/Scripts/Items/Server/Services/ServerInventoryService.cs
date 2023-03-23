@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using Aboba.Items.Common.Descriptors;
 using Aboba.Items.Common.Model;
-using Aboba.Items.Server.Net;
-using Aboba.Network.Server;
+using Aboba.Items.Common.Net;
 using Aboba.Network.Server.Services;
 
 namespace Aboba.Items.Server.Services
@@ -23,7 +22,7 @@ namespace Aboba.Items.Server.Services
 
       if(result)
       {
-        var command = new AddedInventoryItemServerCommand_ServerSide(itemDescriptor.Id, 1);
+        var command = new AddedInventoryItemServerCommand(itemDescriptor.Id, 1);
         _serverCommandSender.SendCommand(ownerId, command);
       }
 

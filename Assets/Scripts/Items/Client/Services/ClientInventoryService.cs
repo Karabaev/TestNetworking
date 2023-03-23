@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Aboba.Items.Client.Net;
 using Aboba.Items.Common.Descriptors;
 using Aboba.Items.Common.Model;
 using Aboba.Items.Common.Net;

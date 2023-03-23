@@ -14,7 +14,7 @@ namespace Aboba.Network.Server.Services
     /// <summary>
     /// Отправляет команду указанному клиенту.
     /// </summary>
-    public void SendCommand<TDto>(ulong clientId, IServerCommand_ServerSide<TDto> command) where TDto : IDto
+    public void SendCommand(ulong clientId, IServerCommand command)
     {
       var rpcParams = NetworkUtils.CreateClientRpcParams(clientId);
       ExecuteCommandClientRpc(command.Key, new DtoWrapper(command.Payload), rpcParams);

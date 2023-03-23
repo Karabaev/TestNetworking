@@ -5,7 +5,7 @@ using Aboba.Infrastructure;
 using Aboba.Items.Common.Descriptors;
 using Aboba.Items.Server.Services;
 using Aboba.Network.Server.Services;
-using Aboba.Player.Server;
+using Aboba.Player.Common;
 using Aboba.Utils;
 using Unity.Netcode;
 using UnityEngine;
@@ -90,7 +90,7 @@ namespace Aboba
 
       ObjectResolversRegistry.Add(clientId, controller.Container);
       
-      Container.Resolve<ServerCommandSender>().SendCommand(clientId, new ClientConnectedServerCommand_ServerSide(clientId));
+      Container.Resolve<ServerCommandSender>().SendCommand(clientId, new ClientConnectedServerCommand(clientId));
     }
     
     private void OnClientDisconnected(ulong clientId)

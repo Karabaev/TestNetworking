@@ -4,6 +4,6 @@ namespace Aboba.Network.Server.Services
 {
   public interface IServerCommandSender
   {
-    void SendCommand<TDto>(ulong clientId, IServerCommand_ServerSide<TDto> command) where TDto : IDto;
+    void SendCommand(ulong clientId, IServerCommand command);
   }
 }
