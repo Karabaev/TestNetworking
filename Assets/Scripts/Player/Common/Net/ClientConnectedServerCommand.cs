@@ -1,10 +1,10 @@
 ﻿using Aboba.Items.Client.Services;
 using Aboba.Network.Common;
-using Aboba.Player.Common.Net;
+using Aboba.Player.Client;
 using Aboba.UI;
 using VContainer;
 
-namespace Aboba.Player.Common
+namespace Aboba.Player.Common.Net
 {
   public class ClientConnectedServerCommand : IServerCommand
   {
@@ -26,12 +26,14 @@ namespace Aboba.Player.Common
     {
       var dto = (ClientConnectedDto)payload;
 
-      objectResolver.Resolve<CurrentPlayerService>().CurrentPlayerId = dto.ClientId;
+      var currentPlayerService = objectResolver.Resolve<CurrentPlayerService>();
+      currentPlayerService.CurrentPlayerId = dto.ClientId;
       await objectResolver.Resolve<ClientInventoryService>().InitializeAsync();
 
       var screenService = objectResolver.Resolve<ScreenService>();
       screenService.Initialize();
       await screenService.OpenScreenAsync("UI/pfGameScreen");
+      await objectResolver.Resolve<CameraManager>().CreateCameraAsync(currentPlayerService.Hero.transform);
     }
 
     public ClientConnectedServerCommand() => Payload = null!;

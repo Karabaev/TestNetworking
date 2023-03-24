@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Aboba.Characters;
+using Aboba.Characters.Server;
+using Aboba.Characters.Server.Descriptors;
 using Aboba.Experimental;
 using Aboba.Infrastructure;
 using Aboba.Items.Common.Descriptors;
 using Aboba.Items.Server.Services;
 using Aboba.Network.Server.Services;
-using Aboba.Player.Common;
+using Aboba.Player.Common.Net;
 using Aboba.Utils;
 using Unity.Netcode;
 using UnityEngine;
@@ -19,9 +22,9 @@ namespace Aboba
   public class ServerGameController : LifetimeScope
   {
     [SerializeField]
-    private NetworkObject _heroPrefab = null!;
-    [SerializeField]
     private ItemsReference _itemsReference = null!;
+    [SerializeField]
+    private CharacterRegistry _characterRegistry = null!;
     [SerializeField]
     private ClientGameController _clientControllerPrefab = null!;
     
@@ -58,7 +61,9 @@ namespace Aboba
       builder.Register<FromResourceFactory>(Lifetime.Singleton);
       builder.Register<ServerInventoryService>(Lifetime.Singleton);
       builder.Register<ClientRequestReceiver>(Lifetime.Singleton);
+      builder.Register<ServerHeroService>(Lifetime.Singleton);
       builder.RegisterInstance(_itemsReference);
+      builder.RegisterInstance(_characterRegistry);
     }
 
     private void OnNetworkSpawned()
@@ -78,9 +83,8 @@ namespace Aboba
     {
       var spawnPoint = Vector3.zero;
       
-      var hero = Instantiate(_heroPrefab, spawnPoint, Quaternion.identity);
-      hero.SpawnWithOwnership(clientId, true);
-
+      var hero = Container.Resolve<ServerHeroService>().CreateCharacter(clientId, "doge", spawnPoint, Quaternion.identity);
+      hero.RequireComponent<CharacterComponent>().Name = $"Player_{clientId}";
       Container.Resolve<ServerInventoryService>().AddInventory(clientId);
       
       var controller = Instantiate(_clientControllerPrefab);

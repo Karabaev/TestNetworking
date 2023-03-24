@@ -2,8 +2,6 @@
 using Aboba.Infrastructure;
 using Aboba.Items.Client.Services;
 using Aboba.Items.Common.Model;
-using Aboba.Network.Client;
-using Aboba.Player;
 using Aboba.Utils;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -14,11 +12,9 @@ namespace Aboba.Items.Client.UI
   public class InventoryPanel : MonoBehaviour
   {
     [Inject]
-    private CurrentPlayerService _currentPlayerService = null!;
+    private readonly FromResourceFactory _fromResourceFactory = null!;
     [Inject]
-    private FromResourceFactory _fromResourceFactory = null!;
-    [Inject]
-    private ClientInventoryService _clientInventoryService = null!;
+    private readonly ClientInventoryService _clientInventoryService = null!;
 
     private IReadOnlyList<InventorySlotPanel> _slotPanels = null!;
 

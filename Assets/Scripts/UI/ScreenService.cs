@@ -1,9 +1,11 @@
 ﻿using Aboba.Utils;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Aboba.UI
 {
+  [UsedImplicitly]
   public class ScreenService
   {
     private readonly UIService _uiService;

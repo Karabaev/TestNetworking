@@ -2,6 +2,7 @@ using Aboba.Infrastructure;
 using Aboba.Items.Client.Services;
 using Aboba.Network.Client.Service;
 using Aboba.Player;
+using Aboba.Player.Client;
 using Aboba.UI;
 using Aboba.Utils;
 using UnityEngine;
@@ -35,12 +36,11 @@ namespace Aboba
       builder.RegisterComponent(_clientRequestManager).As<IClientRequestManager>();
       builder.Register<ClientInventoryService>(Lifetime.Singleton);
       builder.Register<ServerCommandReceiver>(Lifetime.Singleton);
-      builder.RegisterComponent(FindObjectOfType<Canvas>());
+      builder.RegisterComponent(FindObjectOfType<MainCanvas>().RequireComponent<Canvas>());
+      builder.Register<CameraManager>(Lifetime.Singleton);
     }
 
-    private void OnNetworkSpawned()
-    {
-    }
+    private void OnNetworkSpawned() { }
     
     private void OnValidate()
     {
