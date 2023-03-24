@@ -1,4 +1,6 @@
-﻿using Aboba.Utils;
+﻿using Aboba.Characters;
+using Aboba.Network.Client.Service;
+using Aboba.Utils;
 using Unity.Netcode;
 using UnityEngine;
 using VContainer;
@@ -7,8 +9,6 @@ namespace Aboba.Player
 {
   public class CharacterMovement : NetworkBehaviour
   {
-    private static readonly int SpeedHash = Animator.StringToHash("Speed");
-    
     [SerializeField]
     private float _moveSpeed = 3.0f;
     [SerializeField]
@@ -17,10 +17,12 @@ namespace Aboba.Player
     [SerializeField, HideInInspector]
     private CharacterController _characterController = null!;
     [SerializeField, HideInInspector]
-    private Animator _animator = null!;
+    private CharacterAnimation _characterAnimation = null!;
     
     [Inject]
-    private PlayerInput _playerInput = null!;
+    private readonly PlayerInput _playerInput = null!;
+    [Inject]
+    private readonly ClientRequestManager _clientRequestManager = null!;
     
     private readonly NetworkVariable<Vector2> _inputAxis = new();
     private readonly NetworkVariable<float> _velocity = new();
@@ -31,7 +33,7 @@ namespace Aboba.Player
     {
       if(IsClient)
       {
-        _velocity.OnValueChanged += (_, newValue) => _animator.SetFloat(SpeedHash, newValue / _moveSpeed);
+        _velocity.OnValueChanged += (_, newValue) => _characterAnimation.Speed = newValue / _moveSpeed;
       }
     }
 
@@ -67,12 +69,18 @@ namespace Aboba.Player
     private void ClientInput()
     {
       var axis = _playerInput.Axis;
-      
-      if(axis == _previousInputAxis)
-        return;
-      
-      UpdateTranslationServerRpc(axis);
-      _previousInputAxis = axis;
+
+      if(axis != _previousInputAxis)
+      {
+        UpdateTranslationServerRpc(axis);
+        _previousInputAxis = axis;
+      }
+
+      if(_playerInput.Attack)
+      {
+        _clientRequestManager.SendRequestAsync<>()
+        _characterAnimation.Attack();
+      }
     }
 
     [ServerRpc]
@@ -81,7 +89,7 @@ namespace Aboba.Player
     private void OnValidate()
     {
       _characterController = this.RequireComponent<CharacterController>();
-      _animator = this.RequireComponentInChildren<Animator>();
+      _characterAnimation = this.RequireComponent<CharacterAnimation>();
     }
   }
 }

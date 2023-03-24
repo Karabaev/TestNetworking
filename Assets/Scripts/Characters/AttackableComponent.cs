@@ -10,7 +10,9 @@ namespace Aboba.Characters
   {
     [SerializeField, HideInInspector]
     private AttributesComponent _attributesComponent = null!;
-
+    [SerializeField, HideInInspector]
+    private CharacterAnimation _characterAnimation = null!;
+    
     public bool IsDead { get; private set; }
 
     public event Action? Damaged;
@@ -26,8 +28,11 @@ namespace Aboba.Characters
       var calculatedDamage = Mathf.Clamp(damage - actualArmor, 0, float.MaxValue);
       IsDead = _attributesComponent.ApplyDamage(calculatedDamage);
 
-      if(calculatedDamage > 0)
-        Damaged?.Invoke();
+      if(calculatedDamage <= 0)
+        return;
+      
+      Damaged?.Invoke();
+      _characterAnimation.GetHit();
     }
 
     public void Kill() => ApplyDamage(_attributesComponent.CurrentHealth, true);

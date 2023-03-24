@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: -343606163802448983}
   - component: {fileID: 5676811507094508021}
   - component: {fileID: 2883405880750135961}
+  - component: {fileID: 7818834134610921836}
   m_Layer: 0
   m_Name: pfDogHero
   m_TagString: Untagged
@@ -285,7 +286,7 @@ MonoBehaviour:
   _moveSpeed: 3
   _rotationSpeed: 180
   _characterController: {fileID: 4046228758240027669}
-  _animator: {fileID: 5548340763468952359}
+  _characterAnimation: {fileID: 7818834134610921836}
 --- !u!114 &-5181969719367083757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,6 +338,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attributesComponent: {fileID: 5676811507094508021}
   _characterStatusBar: {fileID: 4932090538430182052}
+--- !u!114 &7818834134610921836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3902254619862178815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8748287d6d8a4728ae45214811c3760e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5618463563438280206
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,7 +669,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - Layer: 0
+    OriginatingState: -1124372246
+    DestinationState: 1331344109
+    TransitionDuration: 0.1
+    TriggerNameHash: 1080829965
+    TransitionIndex: 1
+  - Layer: 0
+    OriginatingState: -1124372246
+    DestinationState: -699145385
+    TransitionDuration: 0.1
+    TriggerNameHash: 1080829965
+    TransitionIndex: 2
+  - Layer: 0
+    OriginatingState: -1124372246
+    DestinationState: -1949373134
+    TransitionDuration: 0.1
+    TriggerNameHash: -1949373134
+    TransitionIndex: 3
+  - Layer: 0
+    OriginatingState: -1384423895
+    DestinationState: 1331344109
+    TransitionDuration: 0.1
+    TriggerNameHash: 1080829965
+    TransitionIndex: 1
+  - Layer: 0
+    OriginatingState: -1384423895
+    DestinationState: -699145385
+    TransitionDuration: 0.1
+    TriggerNameHash: 1080829965
+    TransitionIndex: 2
+  - Layer: 0
+    OriginatingState: -1384423895
+    DestinationState: -1949373134
+    TransitionDuration: 0.1
+    TriggerNameHash: -1949373134
+    TransitionIndex: 3
   m_Animator: {fileID: 5548340763468952359}
 --- !u!4 &5548340763478465787 stripped
 Transform:
