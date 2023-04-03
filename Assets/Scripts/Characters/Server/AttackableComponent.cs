@@ -3,7 +3,7 @@ using Aboba.Attributes.Server;
 using Aboba.Utils;
 using UnityEngine;
 
-namespace Aboba.Characters
+namespace Aboba.Characters.Server
 {
   [DisallowMultipleComponent]
   public class AttackableComponent : MonoBehaviour
@@ -13,20 +13,13 @@ namespace Aboba.Characters
     [SerializeField, HideInInspector]
     private CharacterAnimation _characterAnimation = null!;
     
-    public bool IsDead { get; private set; }
-
     public event Action? Damaged;
-
-    public void Reset() => IsDead = false;
 
     public void ApplyDamage(float damage, bool ignoreArmor)
     {
-      if(IsDead)
-        return;
-
       var actualArmor = ignoreArmor ? 0 : _attributesComponent.Armor.CurrentValue;
       var calculatedDamage = Mathf.Clamp(damage - actualArmor, 0, float.MaxValue);
-      IsDead = _attributesComponent.ApplyDamage(calculatedDamage);
+      _attributesComponent.ApplyDamage(calculatedDamage);
 
       if(calculatedDamage <= 0)
         return;

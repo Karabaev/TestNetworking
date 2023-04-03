@@ -11,7 +11,9 @@ namespace Aboba.Characters
     [SerializeField, HideInInspector]
     private AttributesComponent _attributesComponent = null!;
     [SerializeField, HideInInspector]
-    private CharacterStatusBar _characterStatusBar = null!; 
+    private CharacterStatusBar _characterStatusBar = null!;
+    [SerializeField, HideInInspector]
+    private CharacterAnimation _characterAnimation = null!;
       
     private readonly NetworkVariable<float> _attack = new();
     private readonly NetworkVariable<float> _armor = new();
@@ -30,7 +32,7 @@ namespace Aboba.Characters
     {
       set => _characterStatusBar.Name = value;
     }
-    
+
     public override void OnNetworkSpawn()
     {
       if(IsClient)
@@ -50,6 +52,27 @@ namespace Aboba.Characters
         _currentHp.Value = _attributesComponent.CurrentHealth;
       }
     }
+
+    public void Attack()
+    {
+      _characterAnimation.Attack();
+      GetComponentInChildren<Weapon>().Attacking = true;
+    }
+
+    public void ApplyDamage(float damage, bool ignoreArmor)
+    {
+      if(IsServer)
+      {
+        var actualArmor = ignoreArmor ? 0 : _attributesComponent.Armor.CurrentValue;
+        var calculatedDamage = Mathf.Clamp(damage - actualArmor, 0, float.MaxValue);
+        _attributesComponent.ApplyDamage(calculatedDamage);
+        
+        if(calculatedDamage <= 0)
+          return;
+      }
+      
+      _characterAnimation.GetHit();
+    }
     
     private void OnAttributesCurrentHpChanged(float newHp) => _currentHp.Value = newHp;
 
@@ -68,6 +91,7 @@ namespace Aboba.Characters
     {
       _attributesComponent = this.RequireComponent<AttributesComponent>();
       _characterStatusBar = this.RequireComponentInChildren<CharacterStatusBar>();
+      _characterAnimation = this.RequireComponent<CharacterAnimation>();
     }
   }
 }

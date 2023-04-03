@@ -187,6 +187,7 @@ GameObject:
   - component: {fileID: 5676811507094508021}
   - component: {fileID: 2883405880750135961}
   - component: {fileID: 7818834134610921836}
+  - component: {fileID: 1541504947419900640}
   m_Layer: 0
   m_Name: pfDogHero
   m_TagString: Untagged
@@ -338,6 +339,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attributesComponent: {fileID: 5676811507094508021}
   _characterStatusBar: {fileID: 4932090538430182052}
+  _characterAnimation: {fileID: 7818834134610921836}
 --- !u!114 &7818834134610921836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,6 +352,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8748287d6d8a4728ae45214811c3760e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1541504947419900640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3902254619862178815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95ec32ac5fd44131a5c11071631521bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attributesComponent: {fileID: 5676811507094508021}
+  _characterAnimation: {fileID: 0}
 --- !u!1 &5618463563438280206
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,6 +661,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Graphics
       objectReference: {fileID: 0}
+    - target: {fileID: 2357169700832299568, guid: 45288819fde2143449a96207b14db0bb, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45288819fde2143449a96207b14db0bb, type: 3}
 --- !u!95 &5548340763468952359 stripped
@@ -657,7 +677,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2066896392038628118, guid: 45288819fde2143449a96207b14db0bb, type: 3}
   m_PrefabInstance: {fileID: 5787334250022583181}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2589572800559811767
+--- !u!114 &2203482111988676813
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -666,7 +686,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5548340763478425755}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Script: {fileID: 11500000, guid: 25400fcac1504d978409e759df7f1907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TransitionStateInfoList:

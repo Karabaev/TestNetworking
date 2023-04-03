@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Aboba.Items.Common.Net;
 using Aboba.Network.Common;
+using Aboba.Player;
 using VContainer;
 
 namespace Aboba.Network.Server.Services
@@ -24,6 +25,7 @@ namespace Aboba.Network.Server.Services
     {
       _objectResolver = objectResolver;
       _requestsRegistry[GetUserInventoryClientRequest.RequestKey] = new GetUserInventoryClientRequest();
+      _requestsRegistry[AttackClientRequest.RequestKey] = new AttackClientRequest();
     }
   }
 }

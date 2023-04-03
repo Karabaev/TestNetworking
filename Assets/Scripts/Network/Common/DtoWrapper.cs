@@ -1,5 +1,6 @@
 ﻿using System;
 using Aboba.Items.Common.Net.Dto;
+using Aboba.Player;
 using Aboba.Player.Common.Net;
 using Unity.Netcode;
 
@@ -24,6 +25,7 @@ namespace Aboba.Network.Common
                  IDto.DtoType.ClientConnected => new ClientConnectedDto(),
                  IDto.DtoType.GetUserInventory => new GetUserInventoryDto(),
                  IDto.DtoType.GetUserInventoryResponse => new GetUserInventoryResponse(),
+                 IDto.DtoType.Attack => new AttackDto(),
                  _ => throw new ArgumentOutOfRangeException()
                };
       }

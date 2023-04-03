@@ -7,7 +7,7 @@ using VContainer;
 
 namespace Aboba.Player
 {
-  public class CharacterMovement : NetworkBehaviour
+  public class PlayerMovement : NetworkBehaviour
   {
     [SerializeField]
     private float _moveSpeed = 3.0f;
@@ -21,10 +21,10 @@ namespace Aboba.Player
     
     [Inject]
     private readonly PlayerInput _playerInput = null!;
-    [Inject]
-    private readonly ClientRequestManager _clientRequestManager = null!;
+    // [Inject]
+    // private readonly IClientRequestManager _clientRequestManager = null!;
     
-    private readonly NetworkVariable<Vector2> _inputAxis = new();
+    private Vector2 _inputAxis;
     private readonly NetworkVariable<float> _velocity = new();
 
     private Vector2 _previousInputAxis;
@@ -48,15 +48,15 @@ namespace Aboba.Player
 
     private void ServerUpdate()
     {
-      if(_inputAxis.Value.x != 0.0f)
+      if(_inputAxis.x != 0.0f)
       {
-        var angularVelocity = _inputAxis.Value.x * _rotationSpeed;
+        var angularVelocity = _inputAxis.x * _rotationSpeed;
         transform.Rotate(transform.up * (angularVelocity * Time.deltaTime));
       }
       
-      if(_inputAxis.Value.y != 0.0f)
+      if(_inputAxis.y != 0.0f)
       {
-        var velocity = _inputAxis.Value.y * _moveSpeed;
+        var velocity = _inputAxis.y * _moveSpeed;
         _characterController.Move(transform.forward * (velocity * Time.deltaTime));
         _velocity.Value = velocity;
       }
@@ -66,7 +66,7 @@ namespace Aboba.Player
       }
     }
     
-    private void ClientInput()
+    private async void ClientInput()
     {
       var axis = _playerInput.Axis;
 
@@ -78,13 +78,14 @@ namespace Aboba.Player
 
       if(_playerInput.Attack)
       {
-        _clientRequestManager.SendRequestAsync<>()
+        // var result = await ObjectResolversRegistry.LocalObjectResolver.Resolve<IClientRequestManager>().SendRequestAsync(new AttackClientRequest(OwnerClientId));
+        // _clientRequestManager.SendRequestAsync(new AttackClientRequest(OwnerClientId));
         _characterAnimation.Attack();
       }
     }
 
     [ServerRpc]
-    private void UpdateTranslationServerRpc(Vector2 newInputAxis) => _inputAxis.Value = newInputAxis;
+    private void UpdateTranslationServerRpc(Vector2 newInputAxis) => _inputAxis = newInputAxis;
 
     private void OnValidate()
     {

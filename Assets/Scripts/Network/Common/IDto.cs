@@ -12,7 +12,8 @@ namespace Aboba.Network.Common
       AddedInventoryItemDto = 0,
       ClientConnected = 1,
       GetUserInventory = 2,
-      GetUserInventoryResponse = 3
+      GetUserInventoryResponse = 3,
+      Attack = 4
     }
   }
 }
