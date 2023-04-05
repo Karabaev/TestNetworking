@@ -1,11 +1,11 @@
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace Aboba.New.StateMachine.States
 {
-  public class GameLoopState : IState<DummyStateContext>
+  [UsedImplicitly]
+  public class GameLoopState : ApplicationState<DummyStateContext>
   {
-    public UniTask EnterAsync(DummyStateContext payload) => UniTask.CompletedTask;
-
-    public UniTask ExitAsync() => UniTask.CompletedTask;
+    public override UniTask EnterAsync(DummyStateContext payload) => UniTask.CompletedTask;
   }
 }

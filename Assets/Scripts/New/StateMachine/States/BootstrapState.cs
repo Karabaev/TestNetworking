@@ -1,21 +1,24 @@
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace Aboba.New.StateMachine.States
 {
-  public class BootstrapState : IState<DummyStateContext>
+  [UsedImplicitly]
+  public class BootstrapState : ApplicationState<DummyStateContext>
   {
     private readonly ApplicationStateMachine _stateMachine;
-
-    public UniTask EnterAsync(DummyStateContext payload)
+    private readonly SceneService _sceneService;
+    
+    public override async UniTask EnterAsync(DummyStateContext payload)
     {
-      return _stateMachine.EnterAsync<GameBootstrapState>();
+      await _sceneService.OpenSceneAsync("Bootstrap");
+      await _stateMachine.EnterAsync<GameBootstrapState>();
     }
 
-    public UniTask ExitAsync() => UniTask.CompletedTask;
-
-    public BootstrapState(ApplicationStateMachine stateMachine)
+    public BootstrapState(ApplicationStateMachine stateMachine, SceneService sceneService)
     {
       _stateMachine = stateMachine;
+      _sceneService = sceneService;
     }
   }
 }

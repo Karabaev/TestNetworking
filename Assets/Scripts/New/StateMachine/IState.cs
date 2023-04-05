@@ -1,4 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
+using VContainer;
 
 namespace Aboba.New.StateMachine
 {
@@ -6,9 +8,15 @@ namespace Aboba.New.StateMachine
   {
     UniTask ExitAsync();
   }
-  
-  public interface IState<TContext> : IState
+
+  public abstract class ApplicationState<TContext> : IState
   {
-    UniTask EnterAsync(TContext context);
+    private IObjectResolver? _objectResolver;
+    
+    protected T Resolve<T>() => (_objectResolver ??= Object.FindObjectOfType<SceneController>().Container).Resolve<T>();
+
+    public abstract UniTask EnterAsync(TContext context);
+
+    public virtual UniTask ExitAsync() => UniTask.CompletedTask;
   }
 }

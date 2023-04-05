@@ -19,15 +19,12 @@ namespace Aboba.New
       builder.Register<BootstrapState>(Lifetime.Singleton);
       builder.Register<GameBootstrapState>(Lifetime.Singleton);
       builder.Register<GameLoopState>(Lifetime.Singleton);
+      builder.Register<SceneService>(Lifetime.Singleton);
     }
 
     private void Start()
     {
       Container.Resolve<ApplicationStateMachine>().EnterAsync<BootstrapState>();
     }
-  }
-
-  public class GameController : LifetimeScope
-  {
   }
 }
